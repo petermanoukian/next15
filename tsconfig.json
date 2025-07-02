@@ -21,6 +21,8 @@
     "paths": {
       "@/*": ["./*"]
     }
+    ,
+  "types": ["node"] 
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/types/app/superadmin/prod/view/page.ts"],
   "exclude": ["node_modules"]

@@ -10,7 +10,7 @@ import { useSuperActions } from '@/app/hooks/superadmin/useSuperActions';
 import Select from "react-select";
 import Image from 'next/image';
 import { debounce } from 'lodash';
-import { APP_APi_URL } from '@/lib/config';
+import { APP_API_URL } from '@/lib/config';
 
 type Category = { id: number; name: string };
 type Subcategory = { id: number; name: string; catid: string }

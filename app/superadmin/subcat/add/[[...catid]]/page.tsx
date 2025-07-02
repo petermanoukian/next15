@@ -7,7 +7,7 @@ import api from '@/lib/axios';
 import Link from 'next/link';
 import { useSuperActions } from '@/app/hooks/superadmin/useSuperActions';
 import Select from "react-select";
-import { APP_APi_URL } from '@/lib/config';
+import { APP_API_URL } from '@/lib/config';
 type Category = { id: number; name: string };
 
 type FormErrors = 

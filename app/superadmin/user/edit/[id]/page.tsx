@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import api from '@/lib/axios';
 import Link from 'next/link';
-import { APP_APi_URL } from '@/lib/config';
+import { APP_API_URL } from '@/lib/config';
 
 type UserrData = {
   id: number; // ✅ Add the ID field
@@ -404,7 +404,7 @@ export default function EditUserPage() {
                     {!formData.img && userr?.img && (
                       <div className="mt-2">
                         <img
-                          src={`${APP_APi_URL}/${userr.img}`}
+                          src={`${APP_API_URL}/${userr.img}`}
                           alt="Existing Profile"
                           className="max-w-xs max-h-40 rounded border"
                         />
@@ -456,7 +456,7 @@ export default function EditUserPage() {
                   <p className="mt-2 text-sm text-gray-500">
                     Existing file:{" "}
                     <a
-                      href={`${APP_APi_URL}/${userr.filer}`}
+                      href={`${APP_API_URL}/${userr.filer}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="font-semibold text-blue-600 hover:underline"

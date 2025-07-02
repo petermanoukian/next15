@@ -15,7 +15,7 @@ import { useParams } from 'next/navigation';
 import ProdFilterHeader from '@/app/components/superadmin/shop/prod/ProdFilterHeader';
 import ProdTableHeader from '@/app/components/superadmin/shop/prod/ProdTableHeader';
 import ProdTableRow  from '@/app/components/superadmin/shop/prod/ProdTableRow';
-import { APP_APi_URL } from '@/lib/config';
+import { APP_API_URL } from '@/lib/config';
 
 type Prod = {
   id: number;

@@ -15,7 +15,7 @@ import SubcatFilterHeader from '@/app/components/superadmin/shop/subcat/SubcatFi
 import SubcatTableHeader from '@/app/components/superadmin/shop/subcat/SubcatTableHeader';
 import { useParams } from 'next/navigation';
 import SubcatTableRow  from '@/app/components/superadmin/shop/subcat/SubcatTableRow';
-import { APP_APi_URL } from '@/lib/config';
+import { APP_API_URL } from '@/lib/config';
 
 type Subcat = {
   id: number;

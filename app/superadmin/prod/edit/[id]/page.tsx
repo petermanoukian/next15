@@ -5,11 +5,11 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import api from '@/lib/axios';
 import Link from 'next/link';
-//import { APP_APi_URL } from '@/lib/config';
+
 import Select from "react-select";
 import { useMemo } from 'react';
 import { debounce } from 'lodash';
-import { APP_APi_URL } from '@/lib/config';
+import { APP_API_URL } from '@/lib/config';
 import Image from 'next/image';
 
 
@@ -633,7 +633,7 @@ export default function EditProdPage() {
                         {!formData.img && prod?.img && (
                         <div className="mt-2">
                             <img
-                            src={`${APP_APi_URL}/${prod.img}`}
+                            src={`${APP_API_URL}/${prod.img}`}
                             alt="Existing Profile"
                             className="max-w-xs max-h-40 rounded border"
                             />
@@ -685,7 +685,7 @@ export default function EditProdPage() {
                         <p className="mt-2 text-sm text-gray-500">
                             Existing file:{" "}
                             <a
-                            href={`${APP_APi_URL}/${prod.filer}`}
+                            href={`${APP_API_URL}/${prod.filer}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="font-semibold text-blue-600 hover:underline"

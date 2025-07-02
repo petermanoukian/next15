@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import api from '@/lib/axios';
 import Link from 'next/link';
 import Select from "react-select";
-import { APP_APi_URL } from '@/lib/config';
+import { APP_API_URL } from '@/lib/config';
 
 type FormErrors = {
   name?: string;
