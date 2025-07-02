@@ -12,35 +12,24 @@ export default function LoginForm() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-   const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log('=== LOGIN FORM DEBUG ===');
         console.log('Starting login attempt');
         setError('');
         setLoading(true);
-        console.log('Payload to be sent →', { email, password });
 
         try {
             console.log('Calling AuthContext login...');
-            const user = await login(email, password);
-            console.log('Login success. Received user:', user);
+            await login(email, password);
+            console.log(`Email: ${email}, Password: ${password}`);
+
+            console.log('Login successful, refreshing router...');
             router.refresh();
             console.log('Router refreshed');
         } catch (err: any) {
-            console.error('Login error caught:', err);
-
-            if (err.response) {
-                console.error('Server responded with:', {
-                    status: err.response.status,
-                    data: err.response.data,
-                    headers: err.response.headers,
-                });
-            } else if (err.request) {
-                console.error('Request was made but no response:', err.request);
-            } else {
-                console.error('Error setting up request:', err.message);
-            }
-
+            console.log('Login error:', err);
+            console.log('Login error:', err.response?.data?.message);
             setError(err.response?.data?.message || 'Invalid credentials');
         } finally {
             console.log('Login attempt complete');
