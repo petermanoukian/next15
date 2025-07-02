@@ -18,15 +18,29 @@ export default function LoginForm() {
         console.log('Starting login attempt');
         setError('');
         setLoading(true);
+        console.log('Payload to be sent →', { email, password });
 
         try {
             console.log('Calling AuthContext login...');
-            await login(email, password);
-            console.log('Login successful, refreshing router...');
+            const user = await login(email, password);
+            console.log('Login success. Received user:', user);
             router.refresh();
             console.log('Router refreshed');
         } catch (err: any) {
-            console.log('Login error:', err);
+            console.error('Login error caught:', err);
+
+            if (err.response) {
+                console.error('Server responded with:', {
+                    status: err.response.status,
+                    data: err.response.data,
+                    headers: err.response.headers,
+                });
+            } else if (err.request) {
+                console.error('Request was made but no response:', err.request);
+            } else {
+                console.error('Error setting up request:', err.message);
+            }
+
             setError(err.response?.data?.message || 'Invalid credentials');
         } finally {
             console.log('Login attempt complete');
