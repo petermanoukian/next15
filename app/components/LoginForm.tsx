@@ -12,7 +12,7 @@ export default function LoginForm() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+   const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log('=== LOGIN FORM DEBUG ===');
         console.log('Starting login attempt');
