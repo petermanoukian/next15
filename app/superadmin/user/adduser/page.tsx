@@ -1,5 +1,3 @@
-//C:\My-Documents\next\app\superadmin\user\adduser\page.tsx
-
 'use client';
 
 import { useRouter } from 'next/navigation';

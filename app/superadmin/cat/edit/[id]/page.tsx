@@ -1,6 +1,5 @@
-//app\superadmin\cat\edit\[id]\page.tsx
 'use client';
-
+//app\superadmin\cat\edit\[id]\page.tsx
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import api from '@/lib/axios';

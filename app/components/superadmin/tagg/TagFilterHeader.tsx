@@ -1,4 +1,3 @@
-//app\components\superadmin\tagg\TagFilterHeader.tsx
 'use client';
 
 import React, { useCallback } from 'react';

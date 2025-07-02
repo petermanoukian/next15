@@ -1,4 +1,3 @@
-//C:\My-Documents\next\app\components\superadmin\UserActions.ts
 'use client';
 
 import { useEffect, useState } from 'react';

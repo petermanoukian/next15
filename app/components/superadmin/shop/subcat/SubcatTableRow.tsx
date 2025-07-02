@@ -1,6 +1,3 @@
-//app\components\superadmin\shop\subcat\SubcatTableRow.tsx
-
-
 'use client';
 
 import React, { ReactNode } from 'react';

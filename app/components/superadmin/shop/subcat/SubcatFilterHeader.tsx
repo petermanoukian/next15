@@ -1,4 +1,3 @@
-//app\components\superadmin\shop\subcat\SubcatFilterHeader.tsx
 'use client';
 
 import React, { useCallback } from 'react';

@@ -1,5 +1,3 @@
-//app\superadmin\subcat\view\[[...catid]]\page.tsx
-
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';

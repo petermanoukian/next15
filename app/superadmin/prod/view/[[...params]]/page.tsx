@@ -1,5 +1,3 @@
-// app\superadmin\prod\view\[[...params]]\page.tsx
-
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';

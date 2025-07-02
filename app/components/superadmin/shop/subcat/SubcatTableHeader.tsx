@@ -1,4 +1,3 @@
-//app\components\superadmin\shop\subcat\SubcatTableHeader.tsx
 'use client';
 
 import React from 'react';

@@ -1,4 +1,3 @@
-//C:\My-Documents\next\lib\auth.ts
 import api from './axios';
 
 let csrfInitialized = false;
@@ -17,6 +16,7 @@ const initializeCsrf = async () => {
     csrfInitializationPromise = (async () => {
         try {
             const response = await api.get('/sanctum/csrf-cookie');
+            console.log(response)
             csrfInitialized = true;
         } catch (error) {
             console.error('❌ CSRF initialization failed:', error);

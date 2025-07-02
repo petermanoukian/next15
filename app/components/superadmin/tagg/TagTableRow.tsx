@@ -1,5 +1,3 @@
-//C:\My-Documents\next\app\components\superadmin\cat\CatTableRow.tsx
-
 'use client';
 
 import React, { ReactNode } from 'react';

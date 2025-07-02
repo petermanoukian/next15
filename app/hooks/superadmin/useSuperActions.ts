@@ -1,4 +1,3 @@
-//C:\My-Documents\next\app\hooks\superadmin\useSuperActions.ts 
 'use client';
 
 import { useEffect, useState } from 'react';

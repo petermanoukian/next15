@@ -1,4 +1,3 @@
-//app\superadmin\subcat\add\[[...catid]]\page.tsx
 'use client';
 
 import { useRouter, useSearchParams, useParams } from 'next/navigation';

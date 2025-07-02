@@ -1,4 +1,3 @@
-// app/components/superadmin/accounts/UserTableRow.tsx
 import Image from 'next/image';
 import Link from 'next/link';
 

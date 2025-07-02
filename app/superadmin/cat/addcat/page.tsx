@@ -1,6 +1,5 @@
-//app\superadmin\cat\addcat\page.tsx
 'use client';
-
+//app\superadmin\cat\addcat\page.tsx
 import { useRouter } from 'next/navigation';
 //import { useAuth } from '@/lib/AuthContext';
 import { useEffect, useState } from 'react';

@@ -1,4 +1,3 @@
-//C:\My-Documents\next\app\superadmin\page.tsx
 'use client';
 
 //import { useRouter } from 'next/navigation';

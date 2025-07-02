@@ -1,6 +1,5 @@
-// app/login/LoginPageClient.tsx
 'use client';
-
+// app/login/LoginPageClient.tsx
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import LoginForm from '@/app/components/LoginForm';

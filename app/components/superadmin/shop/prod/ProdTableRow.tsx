@@ -1,6 +1,3 @@
-//app\components\superadmin\shop\prod\ProdTableRow.tsx
-
-
 'use client';
 
 import React, { ReactNode } from 'react';

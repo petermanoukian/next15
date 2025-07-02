@@ -1,5 +1,3 @@
-//app\superadmin\prod\add\[[...params]]\page.tsx
-
 'use client';
 
 import { useRouter, useSearchParams, useParams } from 'next/navigation';

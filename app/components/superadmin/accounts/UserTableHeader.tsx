@@ -1,6 +1,3 @@
-//app\components\superadmin\accounts\UserTableHeader.tsx
-//C:\My-Documents\next\app\components\superadmin\accounts\UserTableHeader.tsx
-
 'use client'
 
 import React from 'react';

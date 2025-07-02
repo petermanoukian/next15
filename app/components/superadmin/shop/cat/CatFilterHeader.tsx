@@ -1,5 +1,3 @@
-//C:\My-Documents\next\app\components\superadmin\cat\CatFilterHeader.tsx
-
 'use client';
 
 import React, { useCallback } from 'react';

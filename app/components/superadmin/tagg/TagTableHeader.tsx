@@ -1,6 +1,3 @@
-//C:\My-Documents\next\app\components\superadmin\cat\CatTableHeader.tsx
-
-
 'use client';
 
 import React from 'react';

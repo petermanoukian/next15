@@ -1,5 +1,3 @@
-//app\components\superadmin\shop\prod\ProdTableHeader.tsx
-
 'use client';
 
 import React from 'react';

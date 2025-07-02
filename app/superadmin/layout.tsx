@@ -1,4 +1,3 @@
-//C:\My-Documents\next\app\superadmin\layout.tsx
 'use client';
 
 import { useEffect } from 'react';

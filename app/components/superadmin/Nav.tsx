@@ -1,5 +1,3 @@
-//C:\wamp\www\laranext\next\app\components\superadmin\Nav.tsx
-
 'use client';
 
 import Link from 'next/link';

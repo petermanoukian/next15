@@ -1,4 +1,3 @@
-//app\superadmin\cat\viewcats\page.tsx
 'use client';
 
 import React, { useEffect, useState } from 'react';

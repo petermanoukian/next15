@@ -1,4 +1,3 @@
-//C:\My-Documents\next\app\testpublic\page.tsx
 import React from 'react'
 
 const page = () => {
