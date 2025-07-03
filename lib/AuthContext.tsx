@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             //console.log('AuthContext - Error refreshing user:', err);
             setUser(null);
             if (err instanceof Error) {
-                setError(err);
+                setError(" Line 36 the error is " , err);
             }
         } finally {
             setLoading(false);
