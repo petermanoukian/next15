@@ -19,9 +19,9 @@ const initializeCsrf = async () => {
             const cleanPath = 'sanctum/csrf-cookie'; // strip leading slash if present
             const fullUrl = api.defaults.baseURL + cleanPath;
             if (typeof window !== 'undefined') 
-                {
-                    alert('fullurl ' + fullUrl);
-                }
+            {
+                    //alert('fullurl ' + fullUrl);
+            }
 
             const hasSessionCookie = typeof document !== 'undefined' &&
                 document.cookie.includes('laravel_session=');
@@ -30,7 +30,13 @@ const initializeCsrf = async () => {
 
             if (hasSessionCookie && hasXsrfToken) {
                 // Already authenticated and CSRF protected
-                return;
+                //return;
+                if (typeof window !== 'undefined') 
+                {
+                    alert('Aready logged');
+                }
+
+
             }
 
             const response = await api.get(fullUrl, { withCredentials: true });
