@@ -9,6 +9,11 @@ export async function superadminMiddleware(request: NextRequest) {
     console.log('Line 8 APP_BASE_URL:', APP_BASE_URL);
     console.log('Line 9 Request URL:', request.url);
     console.log('Line 11 Api URL:', api);
+
+    console.log('🧭 Axios instance:', api);
+    console.log('🌐 Axios baseURL:', api.defaults.baseURL);
+    console.log('📄 Axios headers:', api.defaults.headers);
+
    
     try {
         const user = await auth.user();
