@@ -31,9 +31,7 @@ export function useSuperActions() {
                 setUser(userData.user || userData);
             } catch (error: any) {
                 console.error('❌ Failed to fetch user:', error);
-                alert('❌ Failed to fetch user:' + error);
                 if (error.response?.status === 401) {
-                    alert('❌ Failed to fetch user errro 401:' + error.response.data.message);
                     router.push('/login');
                 }
             } finally {

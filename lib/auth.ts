@@ -23,34 +23,13 @@ const initializeCsrf = async () => {
                 alert('fullurl ' + fullUrl);
             }
 
-            const hasSessionCookie = typeof document !== 'undefined' &&
-                document.cookie.includes('laravel_session=');
-
-            const hasXsrfToken = document.cookie.includes('XSRF-TOKEN=');
-
-            if (hasSessionCookie && hasXsrfToken) {
-                // Already authenticated and CSRF protected
-                //return;
-                if (typeof window !== 'undefined') 
-                {
-                    alert('Aready logged');
-                }
-
-
-            }
-            else{
-                const response = await api.get(fullUrl, { withCredentials: true });
-                csrfInitialized = true;
-                console.log(response);
-                if (typeof window !== 'undefined') 
-                {
-                    alert('response ' + response);
-                }
-            }
             
+            const response = await api.get(fullUrl, { withCredentials: true });
 
 
 
+            console.log(response);
+            csrfInitialized = true;
         } catch (error) {
             console.error('❌ CSRF initialization failed:', error);
             throw error;
