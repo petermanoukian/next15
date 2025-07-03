@@ -22,6 +22,17 @@ const initializeCsrf = async () => {
                 {
             alert('fullurl ' + fullUrl);
             }
+
+            const hasSessionCookie = typeof document !== 'undefined' &&
+                document.cookie.includes('laravel_session=');
+
+            const hasXsrfToken = document.cookie.includes('XSRF-TOKEN=');
+
+            if (hasSessionCookie && hasXsrfToken) {
+                // Already authenticated and CSRF protected
+                return;
+            }
+
             const response = await api.get(fullUrl, { withCredentials: true });
 
 

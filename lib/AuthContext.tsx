@@ -69,8 +69,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
 
     useEffect(() => {
+        const hasSessionCookie = typeof document !== 'undefined' &&
+            document.cookie.includes('laravel_session=');
+
+        if (!hasSessionCookie) return;
+
         refreshUser();
     }, []);
+
 
     return (
         <AuthContext.Provider value={{ user, loading, error, login, logout, refreshUser }}>
