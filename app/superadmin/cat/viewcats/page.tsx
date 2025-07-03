@@ -43,7 +43,10 @@ const fetchCats = async (
     params.set('sort_order', sortOrder);
     if (search) params.set('search', search);
 
-    const fullUrl = api.defaults.baseURL + basePath + '?' + params.toString();
+    const cleanPath = basePath.replace(/^\/+/, ''); 
+    const fullUrl = api.defaults.baseURL + cleanPath + '?' + params.toString();
+
+   
 
     alert('🌐 Final Full URL: ' + fullUrl);
 
@@ -166,7 +169,7 @@ const fetchCats = async (
 
         <div className="mt-6 border-t pt-6">
             <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              🛠 Axios Instance (api) version 3.0</h3>
+              🛠 Axios Instance (api) version 4.0</h3>
 
             <div className="bg-green-50 p-4 rounded text-sm font-mono text-gray-800">
                 <p><strong>Axios Type:</strong> {typeof api}</p>
