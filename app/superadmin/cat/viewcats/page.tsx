@@ -46,9 +46,6 @@ const fetchCats = async (
     const cleanPath = basePath.replace(/^\/+/, ''); 
     const fullUrl = api.defaults.baseURL + cleanPath + '?' + params.toString();
 
-   
-
-    alert('🌐 Final Full URL: ' + fullUrl);
 
     const res = await api.get(fullUrl); // now uses the correct Laravel backend
 
@@ -64,7 +61,7 @@ const fetchCats = async (
     );
   } catch (err) {
     console.error('Error fetching categories:', err);
-    alert('❌ Axios request failed: ' + err.message);
+
   } finally {
     setLoading(false);
   }
@@ -154,7 +151,7 @@ const fetchCats = async (
   return (
     <div>
       
-      <h1 className="text-2xl font-semibold mb-4">Categories</h1>
+      <h1 className="text-2xl font-semibold mb-4">Categories (version 5)</h1>
       <div className='mt-2 mb-4'>
         <Link href = '/superadmin/cat/addcat' className='mt-2 mb-4'> &rsaquo; Add Category </Link>
       </div>
@@ -167,20 +164,7 @@ const fetchCats = async (
 
         <>
 
-        <div className="mt-6 border-t pt-6">
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              🛠 Axios Instance (api) version 4.0</h3>
 
-            <div className="bg-green-50 p-4 rounded text-sm font-mono text-gray-800">
-                <p><strong>Axios Type:</strong> {typeof api}</p>
-                <p><strong>Has .get:</strong> {typeof api.get === 'function' ? '✅ Yes' : '❌ No'}</p>
-                <p><strong>Has .post:</strong> {typeof api.post === 'function' ? '✅ Yes' : '❌ No'}</p>
-                <p><strong>Defaults baseURL:</strong> {api.defaults.baseURL}</p>
-
-                <p className="mt-2"><strong>Defaults Headers:</strong></p>
-                <pre className="overflow-x-auto">{JSON.stringify(api.defaults.headers, null, 2)}</pre>
-            </div>
-        </div>
 
 
 
