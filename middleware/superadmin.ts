@@ -21,22 +21,21 @@ export async function superadminMiddleware(request: NextRequest) {
         if (!user) {
             if (typeof window !== 'undefined') 
             {
-                //alert('no user logged in line 22 superamdin iddleware');
+            alert('no user logged in line 22 superamdin iddleware');
             }
             // Centralized URL-based redirect
             return NextResponse.redirect(`${APP_BASE_URL}/login`);
         }
         if (!user || !user.is_admin) {
-            if (typeof window !== 'undefined') 
-            {
-                //alert('line 27 of midleware');
+            if (typeof window !== 'undefined') {
+                alert('line 27 of midleware');
             }
             return NextResponse.redirect(`${APP_BASE_URL}/login`);
         }
 
         if (user.is_admin !== 'superadmin') {
             {
-                //alert('line 32 of midleware');
+                alert('line 32 of midleware');
             }
             
             return NextResponse.redirect(`${APP_BASE_URL}/unauthorized`);
@@ -44,9 +43,9 @@ export async function superadminMiddleware(request: NextRequest) {
 
        return NextResponse.next();
     } catch (error) {
-        //alert('Superadmin middleware error:' + error);
-            console.error('Superadmin middleware error:', error);
-            console.log('Redirecting to login:', `${APP_BASE_URL}/login`)
+        alert('Superadmin middleware error:' + error);
+     console.error('Superadmin middleware error:', error);
+        console.log('Redirecting to login:', `${APP_BASE_URL}/login`)
 
         //return NextResponse.redirect(`${APP_BASE_URL}/login?thepath=${APP_BASE_URL}&path2=${request.url}`);
        
