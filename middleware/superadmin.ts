@@ -1,4 +1,3 @@
-//C:\wamp\www\laranext\next\middleware\superadmin.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { auth } from '@/lib/auth';

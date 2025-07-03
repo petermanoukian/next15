@@ -1,5 +1,4 @@
 'use client';
-//C:\My-Documents\next\lib\AuthContext.tsx
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { auth } from './auth';
 import type { User } from './auth';

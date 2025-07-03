@@ -1,16 +1,20 @@
 import axios from 'axios';
 
-const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
+const fallbackBackend = 'https://corporatehappinessaward.com/next15-laravel-public/';
+const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL || fallbackBackend;
 
+console.log('✅ Axios baseURL resolved to:', backendURL);
+
+const api = axios.create({
+  baseURL: backendURL,
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   },
-
   withCredentials: true,
 });
+
 
 // ✅ Add CSRF and retry logic only on client side
 if (typeof window !== 'undefined') {
