@@ -20,8 +20,8 @@ const initializeCsrf = async () => {
             const fullUrl = api.defaults.baseURL + cleanPath;
             if (typeof window !== 'undefined') 
                 {
-            alert('fullurl ' + fullUrl);
-            }
+                    alert('fullurl ' + fullUrl);
+                }
 
             const hasSessionCookie = typeof document !== 'undefined' &&
                 document.cookie.includes('laravel_session=');
