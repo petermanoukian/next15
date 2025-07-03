@@ -1,5 +1,5 @@
 'use client';
-alert('see the change');
+
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSuperActions } from '@/app/hooks/superadmin/useSuperActions';
@@ -12,6 +12,10 @@ export default function SuperAdminLayout({
 }) {
     const router = useRouter();
     const { user, isInitialLoad } = useSuperActions();
+
+    useEffect(() => {
+  alert('🚨 Fresh build loaded: ' + new Date().toISOString());
+}, []);
 
     useEffect(() => {
         if (!isInitialLoad && user) {

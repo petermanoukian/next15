@@ -1,5 +1,5 @@
 'use client';
-alert('see the change');
+
 import Link from 'next/link';
 import { useAuth } from '@/lib/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -10,6 +10,10 @@ export default function SuperAdminNav() {
     const { logout } = useAuth();
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {
+  alert('🚨 Fresh build loaded: ' + new Date().toISOString());
+}, []);
 
     
     useEffect(() => {
@@ -39,9 +43,6 @@ export default function SuperAdminNav() {
                         </Link>
 
 
-
-
-                        {/* Users Dropdown */}
                         <div className="relative group">
                             <button className="text-gray-700 font-medium hover:text-gray-900">Users</button>
                             <div className="absolute left-0 mt-2 w-32 bg-white border rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
