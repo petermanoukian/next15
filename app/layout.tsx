@@ -1,5 +1,5 @@
 'use client';
-import '@/lib/axios';
+import api from '@/lib/axios';
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/AuthContext";
@@ -24,12 +24,16 @@ export default function RootLayout({
 
   console.log("RootLayout");
 
-useEffect(() => {
-  console.log('main LAyout loaded');
+  useEffect(() => {
+    console.log('main LAyout loaded');
 
-}, []);
+  }, []);
 
-
+    useEffect(() => {
+    console.log('🧭 Axios instance:', api);
+    console.log('🌐 Axios baseURL:', api.defaults.baseURL);
+    console.log('📄 Axios headers:', api.defaults.headers);
+    }, []);
 
 
   return (

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/auth';
 import type { User } from '@/lib/auth';
+import api from '@/lib/axios'; 
 
 export default function Dashboard() {
     const router = useRouter();
@@ -11,6 +12,29 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+    useEffect(() => {
+        console.log('🧭 Axios instance (api) imported:', api);
+        console.log('🌐 Axios baseURL:', api.defaults.baseURL);
+        console.log('📄 Axios default headers:', api.defaults.headers);
+    }, []);
+
+        useEffect(() => {
+        (async () => {
+            try {
+                const res = await api.get('/api/ping'); // Or any harmless endpoint
+                console.log('✅ Test API response:', res.data);
+            } catch (err) {
+                console.error('❌ Test API request failed:', err);
+            }
+        })();
+    }, []);
+
+    useEffect(() => {
+    console.log('main page is loaded');
+
+    }, []);
+
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -83,7 +107,13 @@ export default function Dashboard() {
                             <h2 className="text-lg font-medium text-blue-900 mb-4">Profile Information</h2>
                             <div className="space-y-3 text-blue-800">
                                 <p>
-                                    <span className="font-medium">Name:</span> {user.name}
+                                    <span className="font-medium">
+                                        Name:
+                                     we will log gere to see if updated
+                                     Number 1   
+                                        
+                                        
+                                        </span> {user.name}
                                 </p>
                                 <p>
                                     <span className="font-medium">Email:</span> {user.email}

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import '@/lib/axios';
+import api from '@/lib/axios';
 import { auth } from '@/lib/auth';
 import { useAuth } from '@/lib/AuthContext';
 import type { User } from '@/lib/auth';
@@ -13,6 +13,14 @@ export function useSuperActions() {
 
     const [user, setUser] = useState<User | null>(null);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+
+    useEffect(() => {
+    console.log('🧭 Axios instance:', api);
+    console.log('🌐 Axios baseURL:', api.defaults.baseURL);
+    console.log('📄 Axios headers:', api.defaults.headers);
+    }, []);
+
 
     useEffect(() => {
         const fetchUser = async () => {

@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import '@/lib/axios';
+import api from '@/lib/axios';
 import { useSuperActions } from '@/app/hooks/superadmin/useSuperActions';
 import SuperAdminNav from '@/app/components/superadmin/Nav';
 
@@ -13,6 +13,12 @@ export default function SuperAdminLayout({
 }) {
     const router = useRouter();
     const { user, isInitialLoad } = useSuperActions();
+
+        useEffect(() => {
+    console.log('🧭 Axios instance:', api);
+    console.log('🌐 Axios baseURL:', api.defaults.baseURL);
+    console.log('📄 Axios headers:', api.defaults.headers);
+    }, []);
 
     useEffect(() => {
     console.log('super amdin layout');

@@ -2,13 +2,13 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { auth } from '@/lib/auth';
 import { APP_BASE_URL } from '@/lib/config';
-import '@/lib/axios';
+import api from '@/lib/axios';
 
 export async function superadminMiddleware(request: NextRequest) {
 
     console.log('Line 8 APP_BASE_URL:', APP_BASE_URL);
     console.log('Line 9 Request URL:', request.url);
-
+    console.log('Line 11 Api URL:', api);
    
     try {
         const user = await auth.user();
