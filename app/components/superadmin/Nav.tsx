@@ -1,5 +1,5 @@
 'use client';
-
+alert('see the change');
 import Link from 'next/link';
 import { useAuth } from '@/lib/AuthContext';
 import { useRouter } from 'next/navigation';
