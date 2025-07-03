@@ -17,16 +17,19 @@ export default function SuperAdminNav() {
 
 
     useEffect(() => {
+    const fetchUser = async () => {
+        try {
+        const res = await api.get('/api/user');
+        const data = res.data;
+        setUser(data.user || data);
+        } catch (error) {
+        console.error('❌ Failed to fetch user:', error);
+        }
+    };
 
-        const fetchUser = async () => {
-            //const res = await fetch('/api/user');
-            const res = await api.get('/api/user');
-            const data = await res.json();
-            setUser(data.user || data);
-        };
-
-        fetchUser();
+    fetchUser();
     }, []);
+
     
 
     const handleLogout = async () => {

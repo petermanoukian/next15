@@ -14,7 +14,9 @@ export default function SuperAdminLayout({
     const router = useRouter();
     const { user, isInitialLoad } = useSuperActions();
 
-
+    useEffect(() => {
+    console.log('super amdin layout');
+    }, []);
 
     useEffect(() => {
         if (!isInitialLoad && user) {
