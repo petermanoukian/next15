@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { auth } from '@/lib/auth';
 import { APP_BASE_URL } from '@/lib/config';
+import '@/lib/axios';
 
 export async function superadminMiddleware(request: NextRequest) {
 

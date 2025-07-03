@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import '@/lib/axios';
 import { auth } from '@/lib/auth';
 import { useAuth } from '@/lib/AuthContext';
 import type { User } from '@/lib/auth';
