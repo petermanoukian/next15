@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import type { User } from '@/lib/auth';
 import api from '@/lib/axios';
+console.log('🧭 Axios is wired to:', api.defaults.baseURL);
 export default function SuperAdminNav() {
     const { logout } = useAuth();
     const router = useRouter();
@@ -15,15 +16,30 @@ export default function SuperAdminNav() {
     console.log('super admin nav');
     }, []);
 
+    useEffect(() => {
+    console.log('🧭 Axios instance:', api);
+    console.log('🌐 Axios baseURL:', api.defaults.baseURL);
+    console.log('📄 Axios headers:', api.defaults.headers);
+    }, []);
 
     useEffect(() => {
     const fetchUser = async () => {
         try {
+        console.log('🔍 Firing api.get(/api/user)...');
+
         const res = await api.get('/api/user');
+
+        console.log('📦 Raw Axios response object:', res);
+        console.log('✅ Response status:', res.status);
+        console.log('📄 Response headers:', res.headers);
+        console.log('📊 Response data:', res.data);
+
         const data = res.data;
         setUser(data.user || data);
-        } catch (error) {
-        console.error('❌ Failed to fetch user:', error);
+
+        console.log('🙋 Final user object:', data.user || data);
+        } catch (err) {
+        console.error('❌ Axios call to /api/user failed:', err);
         }
     };
 
