@@ -35,17 +35,25 @@ export default function ViewCatsPage() {
 
   const fetchCats = async (
     baseUrl = '/api/superadmin/cats/viewcats',
-    search = searchTerm,
-    
+    search = searchTerm
   ) => {
     try {
       const url = new URL(baseUrl, window.location.origin);
       url.searchParams.set('sort_by', sortBy);
       url.searchParams.set('sort_order', sortOrder);
       if (search) url.searchParams.set('search', search);
-  
+
+      // 🔍 Alert URL before the request
+      alert('🧭 Final URL: ' + url.toString());
+
+      // 🔍 Alert Axios baseURL and headers
+      alert(
+        '🌐 Axios baseURL: ' + api.defaults.baseURL +
+        '\n📄 Headers:\n' + JSON.stringify(api.defaults.headers, null, 2)
+      );
 
       const res = await api.get(url.toString());
+
       setCats(res.data.data);
       setPagination({
         current_page: res.data.current_page,
@@ -57,7 +65,8 @@ export default function ViewCatsPage() {
         `/superadmin/cat/viewcats?sort_by=${sortBy}&sort_order=${sortOrder}&search=${search}`
       );
     } catch (err) {
-      console.error('Error fetching :', err);
+      alert('❌ Error fetching: ' + err.message);
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -159,6 +168,24 @@ export default function ViewCatsPage() {
       ) : (
 
         <>
+
+        <div className="mt-6 border-t pt-6">
+            <h3 className="text-lg font-semibold text-gray-700 mb-2">🛠 Axios Instance (api)</h3>
+
+            <div className="bg-green-50 p-4 rounded text-sm font-mono text-gray-800">
+                <p><strong>Axios Type:</strong> {typeof api}</p>
+                <p><strong>Has .get:</strong> {typeof api.get === 'function' ? '✅ Yes' : '❌ No'}</p>
+                <p><strong>Has .post:</strong> {typeof api.post === 'function' ? '✅ Yes' : '❌ No'}</p>
+                <p><strong>Defaults baseURL:</strong> {api.defaults.baseURL}</p>
+
+                <p className="mt-2"><strong>Defaults Headers:</strong></p>
+                <pre className="overflow-x-auto">{JSON.stringify(api.defaults.headers, null, 2)}</pre>
+            </div>
+        </div>
+
+
+
+
         <CatFilterHeader setSearchTerm={setSearchTerm} />
 
         <table className="w-full border-collapse border border-gray-200">
