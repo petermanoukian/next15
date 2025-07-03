@@ -1,11 +1,11 @@
 'use client';
 
-//import { useRouter } from 'next/navigation';
-//import { useAuth } from '@/lib/AuthContext';
-//import { useEffect, useState } from 'react';
-import { useEffect } from 'react';
-//import { auth } from '@/lib/auth';
-//import type { User } from '@/lib/auth';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/lib/AuthContext';
+import { useEffect, useState } from 'react';
+
+import { auth } from '@/lib/auth';
+import type { User } from '@/lib/auth';
 import api from '@/lib/axios'; // ✅ Import your custom Axios instance
 import { useSuperActions } from '@/app/hooks/superadmin/useSuperActions';
 
@@ -19,19 +19,27 @@ export default function SuperAdminPage() {
     const { user, isInitialLoad} = useSuperActions();
     //const [loading, setLoading] = useState(true);
     //const [error, setError] = useState<string | null>(null);
-    
-useEffect(() => {
-    const fetchDebug = async () => {
-        try {
-            const debug = await api.get('/api/debug-session');
-            console.log('Crucila cruciala Line 35 🔍 Debug Session:', debug.data);
-        } catch (err) {
-            console.error('❌ Debug fetch failed:', err);
-        }
-    };
 
-    fetchDebug();
-}, []);
+    useEffect(() => {
+        console.log('🧭 Axios instance (api) imported:', api);
+        console.log('🌐 Axios baseURL:', api.defaults.baseURL);
+        console.log('📄 Axios default headers:', api.defaults.headers);
+    }, []);
+
+
+    
+    useEffect(() => {
+        const fetchDebug = async () => {
+            try {
+                const debug = await api.get('/api/debug-session');
+                console.log('Crucila cruciala Line 35 🔍 Debug Session:', debug.data);
+            } catch (err) {
+                console.error('❌ Debug fetch failed:', err);
+            }
+        };
+
+        fetchDebug();
+    }, []);
 
     
    
@@ -56,6 +64,8 @@ useEffect(() => {
                                 <div className="text-center">
                                     <h2 className="text-xl font-semibold text-gray-900">
                                         Welcome to Super Admin Area
+                                        this is version 1 for debug for chat gpt and copilot
+                                        
                                     </h2>
                                     <p className="mt-2 text-gray-600">{user.is_admin}</p>
                                 </div>
