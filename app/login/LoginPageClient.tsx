@@ -1,11 +1,14 @@
 'use client';
-// app/login/LoginPageClient.tsx
+
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import LoginForm from '@/app/components/LoginForm';
 import { useAuth } from '@/lib/AuthContext';
 
 export default function LoginPageClient() {
+
+  console.log('LoginPageClient');
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, loading } = useAuth();

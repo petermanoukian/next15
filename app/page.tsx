@@ -8,6 +8,8 @@ export default function Home() {
     const router = useRouter();
     const { user, loading } = useAuth();
 
+    console.log('home');
+
     useEffect(() => {
         if (!loading) {
             console.log('User:', user);

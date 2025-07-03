@@ -1,5 +1,3 @@
-// lib/config.ts
-
 const fallbackAppURL = 'https://next15-bkki.vercel.app';
 const fallbackBackendURL = 'https://corporatehappinessaward.com/next15-laravel-public/';
 

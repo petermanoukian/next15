@@ -21,15 +21,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const refreshUser = async () => {
         try {
-            //console.log('AuthContext - Refreshing user data');
+            console.log('AuthContext - Refreshing user data');
             const userData = await auth.user();
-            //console.log('AuthContext - User data received:', userData);
-            //console.log('AuthContext - is_admin value:', userData?.is_admin);
-            //console.log('AuthContext - is_admin type:', typeof userData?.is_admin);
+            console.log('AuthContext - User data received:', userData);
+            console.log('AuthContext - is_admin value:', userData?.is_admin);
+           console.log('AuthContext - is_admin type:', typeof userData?.is_admin);
             setUser(userData);
             setError(null);
         } catch (err) {
-            //console.log('AuthContext - Error refreshing user:', err);
+            console.log('AuthContext - Error refreshing user:', err);
             setUser(null);
             if (err instanceof Error) {
                 setError(" Line 36 the error is " , err);
@@ -41,14 +41,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const login = async (email: string, password: string) => {
         try {
-            //console.log('AuthContext - Attempting login');
+            console.log('AuthContext - Attempting login');
             const userData = await auth.login({ email, password });
-            //console.log('AuthContext - Login successful, user data:', userData);
+            console.log('AuthContext - Login successful, user data:', userData);
             setUser(userData);
             setError(null);
             setLoading(false);
         } catch (err) {
-            //console.log('AuthContext - Login error:', err);
+            console.log('AuthContext - Login error:', err);
             if (err instanceof Error) {
                 throw err;
             }

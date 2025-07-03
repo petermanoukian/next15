@@ -61,11 +61,12 @@ export const logout = async () => {
 };
 
 export const getUser = async () => {
+   console.log('auth.ts line 64 - Fetching user data'); 
     await initializeCsrf();
-    //console.log('auth.ts - Fetching user data');
+   console.log('auth.ts line 66 - Fetching user data');
     try {
         const response = await api.get('/api/user');
-        //console.log('auth.ts - User data response:', response.data);
+        console.log('auth.ts - User data response:', response.data);
         // The /api/user endpoint returns { user: {...} }
         return response.data.user;
     } catch (error) {
