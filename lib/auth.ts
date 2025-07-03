@@ -20,7 +20,7 @@ const initializeCsrf = async () => {
             const fullUrl = api.defaults.baseURL + cleanPath;
             if (typeof window !== 'undefined') 
             {
-                    //alert('fullurl ' + fullUrl);
+                alert('fullurl ' + fullUrl);
             }
 
             const hasSessionCookie = typeof document !== 'undefined' &&
@@ -38,13 +38,19 @@ const initializeCsrf = async () => {
 
 
             }
+            else{
+                const response = await api.get(fullUrl, { withCredentials: true });
+                csrfInitialized = true;
+                console.log(response);
+                if (typeof window !== 'undefined') 
+                {
+                    alert('response ' + response);
+                }
+            }
+            
 
-            const response = await api.get(fullUrl, { withCredentials: true });
 
 
-
-            console.log(response)
-            csrfInitialized = true;
         } catch (error) {
             console.error('❌ CSRF initialization failed:', error);
             throw error;
