@@ -33,44 +33,39 @@ export default function ViewCatsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const { user} = useSuperActions();
 
-  const fetchCats = async (
-    baseUrl = '/api/superadmin/cats/viewcats',
-    search = searchTerm
-  ) => {
-    try {
-      const url = new URL(baseUrl, window.location.origin);
-      url.searchParams.set('sort_by', sortBy);
-      url.searchParams.set('sort_order', sortOrder);
-      if (search) url.searchParams.set('search', search);
+const fetchCats = async (
+  basePath = '/api/superadmin/cats/viewcats',
+  search = searchTerm
+) => {
+  try {
+    const params = new URLSearchParams();
+    params.set('sort_by', sortBy);
+    params.set('sort_order', sortOrder);
+    if (search) params.set('search', search);
 
-      // 🔍 Alert URL before the request
-      alert('🧭 Final URL: ' + url.toString());
+    const fullUrl = api.defaults.baseURL + basePath + '?' + params.toString();
 
-      // 🔍 Alert Axios baseURL and headers
-      alert(
-        '🌐 Axios baseURL: ' + api.defaults.baseURL +
-        '\n📄 Headers:\n' + JSON.stringify(api.defaults.headers, null, 2)
-      );
+    alert('🌐 Final Full URL: ' + fullUrl);
 
-      const res = await api.get(url.toString());
+    const res = await api.get(fullUrl); // now uses the correct Laravel backend
 
-      setCats(res.data.data);
-      setPagination({
-        current_page: res.data.current_page,
-        last_page: res.data.last_page,
-        links: res.data.links,
-      });
+    setCats(res.data.data);
+    setPagination({
+      current_page: res.data.current_page,
+      last_page: res.data.last_page,
+      links: res.data.links,
+    });
 
-      router.replace(
-        `/superadmin/cat/viewcats?sort_by=${sortBy}&sort_order=${sortOrder}&search=${search}`
-      );
-    } catch (err) {
-      alert('❌ Error fetching: ' + err.message);
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    router.replace(
+      `/superadmin/cat/viewcats?sort_by=${sortBy}&sort_order=${sortOrder}&search=${search}`
+    );
+  } catch (err) {
+    console.error('Error fetching categories:', err);
+    alert('❌ Axios request failed: ' + err.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
 
   useEffect(() => {
