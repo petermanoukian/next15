@@ -5,20 +5,22 @@ import { useAuth } from '@/lib/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import type { User } from '@/lib/auth';
-
+import api from '@/lib/axios';
 export default function SuperAdminNav() {
     const { logout } = useAuth();
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-  alert('🚨 Fresh build loaded: ' + new Date().toISOString());
-}, []);
+    console.log('super admin nav');
+    }, []);
 
-    
+
     useEffect(() => {
+
         const fetchUser = async () => {
-            const res = await fetch('/api/user'); // Update if needed
+            //const res = await fetch('/api/user');
+            const res = await api.get('/api/user');
             const data = await res.json();
             setUser(data.user || data);
         };

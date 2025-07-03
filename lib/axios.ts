@@ -18,7 +18,6 @@ const api = axios.create({
 });
 
 
-// ✅ Add CSRF and retry logic only on client side
 if (typeof window !== 'undefined') {
   api.interceptors.request.use(
     (config) => {

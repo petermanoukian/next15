@@ -6,8 +6,8 @@ import '@/lib/axios';
 
 export async function superadminMiddleware(request: NextRequest) {
 
-       console.log('Line 8 APP_BASE_URL:', APP_BASE_URL);
-        console.log('Line 9 Request URL:', request.url);
+    console.log('Line 8 APP_BASE_URL:', APP_BASE_URL);
+    console.log('Line 9 Request URL:', request.url);
 
    
     try {
