@@ -1,49 +1,32 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { auth } from '@/lib/auth';
+import { auth , loadAuthenticatedUser } from '@/lib/auth';
+
 import { APP_BASE_URL } from '@/lib/config';
-import api from '@/lib/axios';
 
 export async function superadminMiddleware(request: NextRequest) {
 
-    console.log('Line 8 APP_BASE_URL:', APP_BASE_URL);
-    console.log('Line 9 Request URL:', request.url);
-    console.log('Line 11 Api URL:', api);
-
-    console.log('🧭 Axios instance:', api);
-    console.log('🌐 Axios baseURL:', api.defaults.baseURL);
-    console.log('📄 Axios headers:', api.defaults.headers);
-
    
     try {
-        const user = await auth.user();
+        //const user = await auth.user();
+        const user = await loadAuthenticatedUser();
 
         if (!user) {
-            if (typeof window !== 'undefined') 
-            {
-            alert('no user logged in line 22 superamdin iddleware');
-            }
             // Centralized URL-based redirect
             return NextResponse.redirect(`${APP_BASE_URL}/login`);
         }
         if (!user || !user.is_admin) {
-            if (typeof window !== 'undefined') {
-                alert('line 27 of midleware');
-            }
             return NextResponse.redirect(`${APP_BASE_URL}/login`);
         }
 
+
+
         if (user.is_admin !== 'superadmin') {
-            {
-                alert('line 32 of midleware');
-            }
-            
             return NextResponse.redirect(`${APP_BASE_URL}/unauthorized`);
         }
 
        return NextResponse.next();
     } catch (error) {
-        alert('Superadmin middleware error:' + error);
      console.error('Superadmin middleware error:', error);
         console.log('Redirecting to login:', `${APP_BASE_URL}/login`)
 

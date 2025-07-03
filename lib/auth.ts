@@ -1,4 +1,4 @@
-import api from './axios';
+import api from '@/lib/axios';
 
 let csrfInitialized = false;
 let csrfInitializationPromise: Promise<void> | null = null;
@@ -15,20 +15,15 @@ const initializeCsrf = async () => {
 
     csrfInitializationPromise = (async () => {
         try {
-            //const response = await api.get('/sanctum/csrf-cookie');
-            const cleanPath = 'sanctum/csrf-cookie'; // strip leading slash if present
-            const fullUrl = api.defaults.baseURL + cleanPath;
-            if (typeof window !== 'undefined') 
-            {
-                alert('fullurl ' + fullUrl);
-            }
-
             
+            //const response = await api.get('/sanctum/csrf-cookie');
+            const cleanPath = 'sanctum/csrf-cookie'; // strip leading slash
+            const fullUrl = api.defaults.baseURL + cleanPath;
+
             const response = await api.get(fullUrl, { withCredentials: true });
 
 
 
-            console.log(response);
             csrfInitialized = true;
         } catch (error) {
             console.error('❌ CSRF initialization failed:', error);
@@ -69,16 +64,20 @@ export const register = async (name: string, email: string, password: string, pa
 export const logout = async () => {
     await initializeCsrf();
     csrfInitialized = false; // Reset CSRF state after logout
+    cachedUser = null;
     return api.post('/api/logout');
 };
 
 export const getUser = async () => {
-   console.log('auth.ts line 64 - Fetching user data'); 
     await initializeCsrf();
-   console.log('auth.ts line 66 - Fetching user data');
+    //console.log('auth.ts - Fetching user data');
     try {
-        const response = await api.get('/api/user');
-        console.log('auth.ts - User data response:', response.data);
+        
+        const cleanPath = 'api/user'; // strip leading slash
+        const fullUrl = api.defaults.baseURL + cleanPath;
+        const response = await api.get(fullUrl)
+        //const response = await api.get('/api/user');
+        //console.log('auth.ts - User data response:', response.data);
         // The /api/user endpoint returns { user: {...} }
         return response.data.user;
     } catch (error) {
@@ -116,3 +115,22 @@ export const auth = {
         return register(data.name, data.email, data.password, data.password);
     },
 }; 
+
+
+export let cachedUser: User | null = null;
+
+export const loadAuthenticatedUser = async (): Promise<User | null> => {
+    if (cachedUser !== null) return cachedUser;
+
+    try {
+        await initializeCsrf(); // only if not already done
+        const userData = await getUser();
+        cachedUser = userData;
+        return userData;
+    } catch (error) {
+        cachedUser = null;
+        return null;
+    }
+};
+
+
