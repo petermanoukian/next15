@@ -22,7 +22,7 @@ const initializeCsrf = async () => {
            
             const response = await api.get(fullUrl, { withCredentials: true });
 
-
+            console.log('response' , response);
 
             csrfInitialized = true;
         } catch (error) {

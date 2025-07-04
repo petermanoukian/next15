@@ -46,7 +46,7 @@ const fetchCats = async (
     const cleanPath = basePath.replace(/^\/+/, ''); 
     const fullUrl = api.defaults.baseURL + cleanPath + '?' + params.toString();
 
-
+    alert(fullUrl);
     const res = await api.get(fullUrl); // now uses the correct Laravel backend
 
     setCats(res.data.data);
