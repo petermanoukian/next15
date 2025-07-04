@@ -28,7 +28,7 @@ export default function Home() {
                    router.replace('/dashboard');
                 }
             } else {
-               router.replace('/login');
+               router.replace('/login-entrypage');
              }
         }
     }, [user, loading, router]);
