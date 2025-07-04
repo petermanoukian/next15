@@ -230,7 +230,7 @@ if (categoryid === undefined) {
   return (
     <div>
       
-      <h1 className="text-2xl font-semibold mb-4">SubCategories version 2.01</h1>
+      <h1 className="text-2xl font-semibold mb-4">SubCategories version 2.02</h1>
       <div className='mt-2 mb-4'>
   
       <Link href={`/superadmin/subcat/add${categoryid ? `?catid=${categoryid}` : ''}`} className="mt-2 mb-4">
