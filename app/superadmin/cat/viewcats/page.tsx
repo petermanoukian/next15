@@ -96,7 +96,11 @@ const fetchCats = async (
     if (!confirmed) return;
 
     try {
-      await api.delete(`/api/superadmin/cat/deleteone/${id}`);
+
+      const cleanPath = `api/superadmin/cat/deleteone/${id}`;
+      const finalUrl = api.defaults.baseURL + cleanPath;
+      await api.delete(finalUrl);
+      //await api.delete(`/api/superadmin/cat/deleteone/${id}`);
     
 
       // Refresh the list
@@ -132,11 +136,14 @@ const fetchCats = async (
     const confirmed = window.confirm(`Delete ${selectedIds.length} selected records?`);
     if (!confirmed) return;
 
-    try {
-      await api.post('/api/superadmin/cats/multidelete', {
-        ids: selectedIds,
-      });
 
+    
+
+    try {
+   
+      const cleanPath = 'api/superadmin/cats/multidelete';
+      const finalUrl = api.defaults.baseURL + cleanPath;
+      await api.post(finalUrl, { ids: selectedIds });
       setSelectedIds([]);
       fetchCats();
     } catch (error) {

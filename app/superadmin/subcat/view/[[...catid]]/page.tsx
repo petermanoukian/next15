@@ -87,20 +87,19 @@ const fetchSubcats = async (
     console.log("➡️ Selected Category ID:", selectedCatId);
     console.log("🔍 Search Term:", search);
     console.log("🔽 Sorting:", { sortBy, sortOrder });
-    
-    const url = new URL(baseUrl, window.location.origin);
-    url.searchParams.set('sort_by', sortBy);
-    url.searchParams.set('sort_order', sortOrder);
-    if (search) url.searchParams.set('search', search);
-    if (selectedCatId) url.searchParams.set('catid', selectedCatId.toString());
 
-    console.log("🌎 Final API Request URL:", url.toString()); 
-    const rawUrl = url.toString(); 
-    const strippedUrl = rawUrl.replace(/^\/+/, ''); 
-    const finalUrl = api.defaults.baseURL + strippedUrl;
+    const params = new URLSearchParams();
+    params.set('sort_by', sortBy);
+    params.set('sort_order', sortOrder);
+    if (search) params.set('search', search);
+    if (selectedCatId) params.set('catid', selectedCatId.toString());
+
+    const cleanPath = baseUrl.replace(/^\/+/, '');
+    const finalUrl = api.defaults.baseURL + cleanPath + '?' + params.toString();
+
+    console.log("🌎 Final Laravel API URL:", finalUrl);
+
     const res = await api.get(finalUrl);
-
-    //const res = await api.get(url.toString());
     
     console.log("✅ API Response:", res.data);
 
@@ -174,7 +173,10 @@ const fetchSubcats = async (
     if (!confirmed) return;
 
     try {
-      await api.delete(`/api/superadmin/subcat/deleteone/${id}`);
+      const cleanPath = `api/superadmin/subcat/deleteone/${id}`;
+      const finalUrl = api.defaults.baseURL + cleanPath;
+      await api.delete(finalUrl);
+
     
 
       // Refresh the list
@@ -210,9 +212,10 @@ const fetchSubcats = async (
     if (!confirmed) return;
 
     try {
-      await api.post('/api/superadmin/subcats/multidelete', {
-        ids: selectedIds,
-      });
+      const cleanPath = 'api/superadmin/subcats/multidelete';
+      const finalUrl = api.defaults.baseURL + cleanPath;
+      await api.post(finalUrl, { ids: selectedIds });
+
 
       setSelectedIds([]);
       fetchSubcats();

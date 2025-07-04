@@ -40,7 +40,10 @@ export default function SuperAdminAddCatPage() {
       setCatChecking(true);
       setCatCheckMessage('');
       try {
-          const res = await api.post('/api/superadmin/cats/check-cat', { name });
+            const cleanPath = 'api/superadmin/cats/check-cat';
+            const finalUrl = api.defaults.baseURL + cleanPath;
+            const res = await api.post(finalUrl, { name });
+
           if (res.data.valid) {
               setCatCheckMessage('✅ Name is available.');
               setCatExists(false);
@@ -119,9 +122,10 @@ const handleFormSubmit = async (e) => {
 
         try {
             //await api.get('/sanctum/csrf-cookie');
-            const res = await api.post('/api/superadmin/cat/addcat', payload, {
-               
-            });
+            const cleanPath = 'api/superadmin/cat/addcat';
+            const finalUrl = api.defaults.baseURL + cleanPath;
+            const res = await api.post(finalUrl, payload, {});
+
 
             router.push('/superadmin/cat/viewcats?message=Record+created+successfully');
            

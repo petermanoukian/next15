@@ -35,7 +35,10 @@ export default function EditCatPage() {
   useEffect(() => {
     const fetchCat = async () => {
       try {
-        const res = await api.get(`/api/superadmin/cat/edit/${id}`);
+        const cleanPath = `api/superadmin/cat/edit/${id}`;
+        const finalUrl = api.defaults.baseURL + cleanPath;
+        const res = await api.get(finalUrl);
+
         setCat(res.data.cat);
       } catch (err) {
         console.error('Failed to load record:', err);
@@ -71,9 +74,17 @@ export default function EditCatPage() {
 
 
         try {
+          /*
             const res = await api.post('/api/superadmin/cats/check-cat-edit', {
             name,
             id: id, // from useParams()
+            });
+          */
+            const cleanPath = 'api/superadmin/cats/check-cat-edit';
+            const finalUrl = api.defaults.baseURL + cleanPath;
+            const res = await api.post(finalUrl, {
+              name,
+              id, // from useParams()
             });
 
             if (res.data.valid) {
@@ -158,10 +169,17 @@ export default function EditCatPage() {
         try {
             const formPayload = new FormData();
             formPayload.append('name', formData.name);
-
+            /*
             formPayload.append('_method', 'PUT'); 
                 await api.post(`/api/superadmin/cat/update/${id}`, formPayload, {
             });
+            */
+           formPayload.append('_method', 'PUT');
+
+            const cleanPath = `api/superadmin/cat/update/${id}`;
+            const finalUrl = api.defaults.baseURL + cleanPath;
+
+            await api.post(finalUrl, formPayload, {});
 
             router.push('/superadmin/cat/viewcats');
         } 
