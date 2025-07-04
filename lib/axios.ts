@@ -42,8 +42,8 @@ if (typeof window !== 'undefined') {
         try {
           //await api.get('/api/sanctum/csrf-cookie');
 
-          const cleanPath = 'api/sanctum/csrf-cookie'; // strip leading slash
-          const fullUrl = 'https://corporatehappinessaward.com/next15-laravel-public/' + cleanPath;
+          const cleanPath = 'sanctum/csrf-cookie'; // strip leading slash
+          const fullUrl = 'https://corporatehappinessaward.com/next15-laravel-public/api/' + cleanPath;
         
           await api.get(fullUrl);
 
