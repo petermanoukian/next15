@@ -181,7 +181,7 @@ export default function SuperAdminAddUserPage() {
 
 
         try {
-            await api.get('/sanctum/csrf-cookie');
+            //await api.get('/sanctum/csrf-cookie');
             const res = await api.post('/api/superadmin/user/adduser', payload, {
                 headers: {
                     'Content-Type': 'multipart/form-data',

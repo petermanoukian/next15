@@ -27,8 +27,11 @@ export default function SuperAdminNav() {
         try {
         console.log('🔍 Firing api.get(/api/user)...');
 
-        const res = await api.get('/api/user');
+        const cleanPath = 'api/user'; // strip leading slash
+        const fullUrl = 'https://corporatehappinessaward.com/next15-laravel-public/api/' + cleanPath;
 
+        //const res = await api.get('/api/user');
+        const res = await api.get(fullUrl);
         console.log('📦 Raw Axios response object:', res);
         console.log('✅ Response status:', res.status);
         console.log('📄 Response headers:', res.headers);

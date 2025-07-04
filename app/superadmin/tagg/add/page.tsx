@@ -108,7 +108,7 @@ export default function SuperAdminAddTagPage() {
         }
         });
         try {
-            await api.get('/sanctum/csrf-cookie');
+            //await api.get('/sanctum/csrf-cookie');
             const res = await api.post('/api/superadmin/tagg/add', payload, {      
             });
             router.push('/superadmin/tagg/view?message=Record+created+successfully');

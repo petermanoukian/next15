@@ -118,7 +118,7 @@ const handleFormSubmit = async (e) => {
 
 
         try {
-            await api.get('/sanctum/csrf-cookie');
+            //await api.get('/sanctum/csrf-cookie');
             const res = await api.post('/api/superadmin/cat/addcat', payload, {
                
             });

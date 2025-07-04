@@ -18,7 +18,7 @@ const initializeCsrf = async () => {
             //const response = await api.get('/sanctum/csrf-cookie');
             const cleanPath = 'api/sanctum/csrf-cookie'; // strip leading slash
             const fullUrl = api.defaults.baseURL + cleanPath;  
-            const response = await api.get(fullUrl, { withCredentials: true });
+            const response = await api.get(fullUrl);
             console.log('response' , response);
 
             csrfInitialized = true;
