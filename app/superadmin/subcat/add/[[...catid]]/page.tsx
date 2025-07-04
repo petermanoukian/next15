@@ -116,35 +116,6 @@ export default function SuperAdminAddSubCatPage() {
 
 
 
-    /*
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        if (!value.trim()) {
-            setFormErrors(prev => ({
-                ...prev,
-                [name]: `${name === 'name' ? 'Subcategory name' : 'Category'} cannot be empty`,
-            }));
-        } 
-        else 
-        {
-            setFormErrors(prev => ({ ...prev, [name]: undefined })); // ✅ Clears error on valid selection
-        }
-
-        setFormData(prev => ({ ...prev, [name]: value }));
-
-        if (name === 'catid') 
-        {
-            setSelectedCatId(value !== "" ? value : null); // ✅ Correctly resets when blank
-        }
-
-        // Check subcategory availability **only when name changes**
-        if (name === 'name' && value.trim() && selectedCatId) {
-            checkSubcatAvailability(value, selectedCatId);
-        }
-    };
-    */
-
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => 
     {
         const { name, value } = e.target;
@@ -208,13 +179,14 @@ export default function SuperAdminAddSubCatPage() {
             const cleanPath = 'api/superadmin/subcat/addsubcat';
             const finalUrl = api.defaults.baseURL + cleanPath;
             const res = await api.post(finalUrl, formData);
-
+            console.log('res ', res);
+            console.log('formdata ' , formData);
 
             if (res.status === 200) { // ✅ Now, `res` is defined
                 router.push('/superadmin/subcat/view?message=Subcategory+added+successfully');
             }
         } catch (err) {
-            setError('Failed to submit the form.');
+            setError('Failed to submit the form. ' + err);
         }
         finally 
         {
