@@ -74,7 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         // Only refresh if we don't already have a user AND we're still loading
         if (user === null && loading === true) {
-            //refreshUser();
+            refreshUser();
         }
     }, [user, loading]);
 
