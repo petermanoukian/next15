@@ -68,11 +68,9 @@ useEffect(() => {
     return;
   }
 
-  // Run only if categoryid is NOT undefined (but allow null)
-  if (typeof categoryid !== 'undefined') {
-    console.log("🔄 Fetching subcategories for categoryid:", categoryid ?? '[ALL]');
+
     fetchSubcats();
-  }
+
 }, [reset, sortBy, sortOrder, searchTerm, categoryid]);
 
 
@@ -98,7 +96,7 @@ const fetchSubcats = async (
     const finalUrl = api.defaults.baseURL + cleanPath + '?' + params.toString();
     console.log("🌐 Final URL:", finalUrl);
     console.log("🌎 Final Laravel API URL:", finalUrl);
-    alert(finalUrl);
+  
     const res = await api.get(finalUrl);
     
     console.log("✅ API Response:", res.data);
