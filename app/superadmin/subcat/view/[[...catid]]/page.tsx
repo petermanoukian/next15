@@ -96,9 +96,9 @@ const fetchSubcats = async (
 
     const cleanPath = baseUrl.replace(/^\/+/, '');
     const finalUrl = api.defaults.baseURL + cleanPath + '?' + params.toString();
-
+    console.log("🌐 Final URL:", finalUrl);
     console.log("🌎 Final Laravel API URL:", finalUrl);
-
+    alert(finalUrl);
     const res = await api.get(finalUrl);
     
     console.log("✅ API Response:", res.data);
