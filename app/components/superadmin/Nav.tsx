@@ -3,56 +3,23 @@
 import Link from 'next/link';
 import { useAuth } from '@/lib/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import type { User } from '@/lib/auth';
-import api from '@/lib/axios';
-console.log('🧭 Axios is wired to:', api.defaults.baseURL);
+import { useEffect } from 'react';
+
 export default function SuperAdminNav() {
-    const { logout } = useAuth();
+    const { user, logout } = useAuth();
     const router = useRouter();
-    const [user, setUser] = useState<User | null>(null);
-    useEffect(() => {
-    console.log('super admin nav');
-    }, []);
 
     useEffect(() => {
-    console.log('🧭 Axios instance:', api);
-    console.log('🌐 Axios baseURL:', api.defaults.baseURL);
-    console.log('📄 Axios headers:', api.defaults.headers);
+        console.log('🧭 SuperAdminNav hydrated');
     }, []);
-
-    useEffect(() => {
-    const fetchUser = async () => {
-        try {
-        console.log('🔍 Firing api.get(/api/user)...');
-
-        const cleanPath = 'api/user'; // strip leading slash
-        const fullUrl = 'https://corporatehappinessaward.com/next15-laravel-public/api/' + cleanPath;
-
-        //const res = await api.get('/api/user');
-        const res = await api.get(fullUrl);
-        console.log('📦 Raw Axios response object:', res);
-        console.log('✅ Response status:', res.status);
-        console.log('📄 Response headers:', res.headers);
-        console.log('📊 Response data:', res.data);
-
-        const data = res.data;
-        setUser(data.user || data);
-
-        console.log('🙋 Final user object:', data.user || data);
-        } catch (err) {
-        console.error('❌ Axios call to /api/user failed:', err);
-        }
-    };
-
-    fetchUser();
-    }, []);
-
-    
 
     const handleLogout = async () => {
-        await logout();
-        router.replace('/login');
+        try {
+            await logout();
+            router.replace('/login');
+        } catch (error) {
+            console.error('❌ Logout failed:', error);
+        }
     };
 
     return (
@@ -60,12 +27,11 @@ export default function SuperAdminNav() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16 items-center">
                     <div className="flex items-center space-x-6">
-
                         <Link href="/superadmin" className="text-xl font-bold text-gray-800">
                             SuperAdmin
                         </Link>
 
-
+                        {/* Users */}
                         <div className="relative group">
                             <button className="text-gray-700 font-medium hover:text-gray-900">Users</button>
                             <div className="absolute left-0 mt-2 w-32 bg-white border rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
@@ -74,7 +40,7 @@ export default function SuperAdminNav() {
                             </div>
                         </div>
 
-                        {/* Categories Dropdown */}
+                        {/* Categories */}
                         <div className="relative group">
                             <button className="text-gray-700 font-medium hover:text-gray-900">Categories</button>
                             <div className="absolute left-0 mt-2 w-32 bg-white border rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
@@ -83,7 +49,7 @@ export default function SuperAdminNav() {
                             </div>
                         </div>
 
-                        {/* Subcategories Dropdown */}
+                        {/* Subcategories */}
                         <div className="relative group">
                             <button className="text-gray-700 font-medium hover:text-gray-900">Subcategories</button>
                             <div className="absolute left-0 mt-2 w-32 bg-white border rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
@@ -92,7 +58,7 @@ export default function SuperAdminNav() {
                             </div>
                         </div>
 
-                        {/* Products Dropdown */}
+                        {/* Products */}
                         <div className="relative group">
                             <button className="text-gray-700 font-medium hover:text-gray-900">Products</button>
                             <div className="absolute left-0 mt-2 w-32 bg-white border rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
@@ -101,7 +67,7 @@ export default function SuperAdminNav() {
                             </div>
                         </div>
 
-                        {/* Tags Dropdown */}
+                        {/* Tags */}
                         <div className="relative group">
                             <button className="text-gray-700 font-medium hover:text-gray-900">Tags</button>
                             <div className="absolute left-0 mt-2 w-32 bg-white border rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
@@ -109,12 +75,9 @@ export default function SuperAdminNav() {
                                 <Link href="/superadmin/tagg/view" className="block px-4 py-2 hover:bg-gray-100 text-sm text-gray-800">View</Link>
                             </div>
                         </div>
-
-                        {/* Add other links not tied to array */}
-                        {/* <Link href="/superadmin/reports" className="text-gray-700 font-medium hover:text-gray-900">Reports</Link> */}
                     </div>
 
-                    {/* User Dropdown */}
+                    {/* Authenticated User Dropdown */}
                     <div className="relative group">
                         <button className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 font-medium">
                             <span>{user?.name}</span>
@@ -124,8 +87,10 @@ export default function SuperAdminNav() {
                             <Link href="/superadmin/profile/edit" className="block px-4 py-2 hover:bg-gray-100 text-sm text-gray-800">
                                 Edit Profile
                             </Link>
-                            <button onClick={handleLogout} 
-                            className="cursor-pointer w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-800">
+                            <button
+                                onClick={handleLogout}
+                                className="cursor-pointer w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-800"
+                            >
                                 Logout
                             </button>
                         </div>

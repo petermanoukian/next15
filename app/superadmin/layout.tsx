@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import api from '@/lib/axios';
 import { useSuperActions } from '@/app/hooks/superadmin/useSuperActions';
 import SuperAdminNav from '@/app/components/superadmin/Nav';
 
@@ -14,25 +13,25 @@ export default function SuperAdminLayout({
     const router = useRouter();
     const { user, isInitialLoad } = useSuperActions();
 
-        useEffect(() => {
-    console.log('🧭 Axios instance:', api);
-    console.log('🌐 Axios baseURL:', api.defaults.baseURL);
-    console.log('📄 Axios headers:', api.defaults.headers);
-    }, []);
-
-    useEffect(() => {
-    console.log('super amdin layout');
-    }, []);
-
     useEffect(() => {
         if (!isInitialLoad && user) {
-            if (user.is_admin !== 'superadmin') {
-                router.push(user.is_admin === 'admin' ? '/admin' : '/user');
+            switch (user.is_admin) {
+                case 'superadmin':
+                    // ✅ Allowed access
+                    break;
+                case 'admin':
+                    router.replace('/admin');
+                    break;
+                case 'orduser':
+                    router.replace('/user');
+                    break;
+                default:
+                    router.replace('/unauthorized');
             }
         }
     }, [isInitialLoad, user, router]);
 
-    if (isInitialLoad || !user || user.is_admin !== 'superadmin') {
+    if (isInitialLoad || !user) {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900"></div>

@@ -1,54 +1,20 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { auth , loadAuthenticatedUser } from '@/lib/auth';
-
 import { APP_BASE_URL } from '@/lib/config';
 
-export async function superadminMiddleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
+  const path = request.nextUrl.pathname;
 
-   
-    try {
-        //const user = await auth.user();
-        const user = await loadAuthenticatedUser();
+  // 🚧 Block bots or unwanted agents (optional)
+  const userAgent = request.headers.get('user-agent') || '';
+  if (userAgent.includes('Googlebot')) {
+    return NextResponse.redirect(`${APP_BASE_URL}/unauthorized`);
+  }
 
-        if (!user) {
-            // Centralized URL-based redirect
-            return NextResponse.redirect(`${APP_BASE_URL}/login`);
-        }
-        if (!user || !user.is_admin) {
-            return NextResponse.redirect(`${APP_BASE_URL}/login`);
-        }
+  // ✅ Only match /superadmin route
+  if (path.startsWith('/superadmin')) {
+    console.log('⚠️ Middleware matched superadmin route:', path);
+  }
 
-
-
-        if (user.is_admin !== 'superadmin') {
-            return NextResponse.redirect(`${APP_BASE_URL}/unauthorized`);
-        }
-
-       return NextResponse.next();
-    } catch (error) {
-     console.error('Superadmin middleware error:', error);
-        console.log('Redirecting to login:', `${APP_BASE_URL}/login`)
-
-        //return NextResponse.redirect(`${APP_BASE_URL}/login?thepath=${APP_BASE_URL}&path2=${request.url}`);
-       
-       /*
-        return NextResponse.redirect(
-            `${APP_BASE_URL}/login?reason=error&error=${encodeURIComponent(error?.message || 'unknown')}&thepath=${encodeURIComponent(APP_BASE_URL)}&path2=${encodeURIComponent(request.url)}`
-        );
-        
-       
-            return new NextResponse(
-                JSON.stringify({ error: error.message || 'Unauthorized' }),
-                {
-                status: 401,
-                headers: { 'Content-Type': 'application/json' },
-                }
-            );
-        */
-
-
-
-    }
+  return NextResponse.next();
 }
-

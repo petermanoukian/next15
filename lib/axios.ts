@@ -1,5 +1,6 @@
 import axios from 'axios';
 console.log('axios.ts file');
+
 const fallbackBackend = 'https://corporatehappinessaward.com/next15-laravel-public/';
 const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL || fallbackBackend;
 console.log('✅ Axios baseURL resolved to:', backendURL);
@@ -13,7 +14,6 @@ const api = axios.create({
   },
   withCredentials: true,
 });
-
 
 if (typeof window !== 'undefined') {
   api.interceptors.request.use(
@@ -37,11 +37,9 @@ if (typeof window !== 'undefined') {
     async (error) => {
       if (error.response?.status === 419) {
         try {
-          //await api.get('/api/sanctum/csrf-cookie');
+          const cleanPath = 'sanctum/csrf-cookie';
+          const fullUrl = `${backendURL}api/${cleanPath}`; // full resolved path
 
-          const cleanPath = 'sanctum/csrf-cookie'; // strip leading slash
-          const fullUrl = 'https://corporatehappinessaward.com/next15-laravel-public/api/' + cleanPath;
-        
           await api.get(fullUrl);
 
           const token = document.cookie

@@ -8,6 +8,3 @@ if (typeof window !== 'undefined') {
   console.log('✅ APP_BASE_URL resolved to:', APP_BASE_URL);
   console.log('✅ APP_API_URL resolved to:', APP_API_URL);
 }
-
-
-

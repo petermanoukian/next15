@@ -1,7 +1,13 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { auth , loadAuthenticatedUser } from './auth';
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+    ReactNode,
+} from 'react';
+import { auth, loadAuthenticatedUser } from './auth';
 import type { User } from './auth';
 
 interface AuthContextType {
@@ -22,20 +28,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const refreshUser = async () => {
         try {
-            //console.log('AuthContext - Refreshing user data');
-            //const userData = await auth.user();
             const userData = await loadAuthenticatedUser();
-            //console.log('AuthContext - User data received:', userData);
-            //console.log('AuthContext - is_admin value:', userData?.is_admin);
-            //console.log('AuthContext - is_admin type:', typeof userData?.is_admin);
             setUser(userData);
             setError(null);
         } catch (err) {
-            //console.log('AuthContext - Error refreshing user:', err);
             setUser(null);
-            if (err instanceof Error) {
-                setError(err);
-            }
+            if (err instanceof Error) setError(err);
         } finally {
             setLoading(false);
         }
@@ -43,18 +41,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const login = async (email: string, password: string) => {
         try {
-            //console.log('AuthContext - Attempting login');
             const userData = await auth.login({ email, password });
-            //console.log('AuthContext - Login successful, user data:', userData);
             setUser(userData);
             setError(null);
-            setLoading(false);
         } catch (err) {
-            //console.log('AuthContext - Login error:', err);
-            if (err instanceof Error) {
-                throw err;
-            }
+            if (err instanceof Error) throw err;
             throw new Error('Login failed');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -63,33 +57,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             await auth.logout();
             setUser(null);
         } catch (err) {
-            if (err instanceof Error) {
-                throw err;
-            }
+            if (err instanceof Error) throw err;
             throw new Error('Logout failed');
         }
     };
 
-
     useEffect(() => {
-        // Only refresh if we don't already have a user AND we're still loading
-        if (user === null && loading === true) {
+        // Only run on first hydration
+        if (user === null && loading) {
             refreshUser();
         }
     }, [user, loading]);
 
-
     return (
-        <AuthContext.Provider value={{ user, loading, error, login, logout, refreshUser }}>
+        <AuthContext.Provider
+            value={{ user, loading, error, login, logout, refreshUser }}
+        >
             {children}
         </AuthContext.Provider>
     );
 }
 
-export function useAuth() {
+export function useAuth(): AuthContextType {
     const context = useContext(AuthContext);
-    if (context === undefined) {
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
+    if (!context) throw new Error('useAuth must be used within an AuthProvider');
     return context;
-} 
+}
