@@ -53,7 +53,10 @@ export default function SuperAdminAddSubCatPage() {
         {
             try 
             {
-                const res = await api.get(`/api/superadmin/subcat/create/${selectedCatId}`);
+                const cleanPath = `api/superadmin/subcat/create/${selectedCatId}`;
+                const finalUrl = api.defaults.baseURL + cleanPath;
+                const res = await api.get(finalUrl);
+
                 setCats(res.data.cats);
             } 
             catch (err) 
@@ -76,7 +79,10 @@ export default function SuperAdminAddSubCatPage() {
         setSubcatChecking(true);
         setSubcatCheckMessage('');
         try {
-            const res = await api.post('/api/superadmin/subcats/check-subcat', { name, catid });
+            const cleanPath = 'api/superadmin/subcats/check-subcat';
+            const finalUrl = api.defaults.baseURL + cleanPath;
+            const res = await api.post(finalUrl, { name, catid });
+
 
             if (res.data.valid) {
                 setSubcatCheckMessage('✅ Name is available.');
@@ -199,7 +205,10 @@ export default function SuperAdminAddSubCatPage() {
 
         setLoading(true);
         try {
-            const res = await api.post('/api/superadmin/subcat/addsubcat', formData); // ✅ Store the response
+            const cleanPath = 'api/superadmin/subcat/addsubcat';
+            const finalUrl = api.defaults.baseURL + cleanPath;
+            const res = await api.post(finalUrl, formData);
+
 
             if (res.status === 200) { // ✅ Now, `res` is defined
                 router.push('/superadmin/subcat/view?message=Subcategory+added+successfully');
@@ -245,7 +254,7 @@ return (
                         &rsaquo; View Subcategories
                     </Link>
                 </div>
-                <h3 className="text-xl font-semibold mb-4">➕ Add New Subcategory</h3>
+                <h3 className="text-xl font-semibold mb-4">➕ Add New Subcategory version 2</h3>
                 <form onSubmit={handleFormSubmit} encType="multipart/form-data" className="space-y-4">
                     { /*}
                     <select

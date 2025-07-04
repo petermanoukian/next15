@@ -44,7 +44,10 @@ export default function EditSubCatPage() {
   useEffect(() => {
     const fetchSubCat = async () => {
       try {
-        const res = await api.get(`/api/superadmin/subcat/edit/${id}`);
+        const cleanPath = `api/superadmin/subcat/edit/${id}`;
+        const finalUrl = api.defaults.baseURL + cleanPath;
+        const res = await api.get(finalUrl);
+
         setSubcat(res.data.subcat);
         setCats(res.data.cats);
         setSelectedCatId(res.data.subcat.catid);
@@ -84,11 +87,10 @@ export default function EditSubCatPage() {
 
 
         try {
-            const res = await api.post('/api/superadmin/subcats/check-subcat-edit', {
-            name,
-            id: id, 
-            catid: selectedCatId,
-            });
+              const cleanPath = `api/superadmin/subcat/edit/${id}`;
+              const finalUrl = api.defaults.baseURL + cleanPath;
+              const res = await api.get(finalUrl);
+
 
             if (res.data.valid) {
             setFormErrors(prev => ({ ...prev, name: undefined }));
@@ -182,9 +184,13 @@ export default function EditSubCatPage() {
             const formPayload = new FormData();
             formPayload.append('name', formData.name);
             formPayload.append('catid', formData.catid);
-            formPayload.append('_method', 'PUT'); 
-                await api.post(`/api/superadmin/subcat/update/${id}`, formPayload, {
-            });
+            formPayload.append('_method', 'PUT');
+
+            const cleanPath = `api/superadmin/subcat/update/${id}`;
+            const finalUrl = api.defaults.baseURL + cleanPath;
+
+            await api.post(finalUrl, formPayload, {});
+
 
             router.push('/superadmin/subcat/view');
         } 
