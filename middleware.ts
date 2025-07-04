@@ -50,7 +50,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next();
     } catch (error) {
         console.error('Middleware error:', error);
-        return NextResponse.redirect(new URL('/login-main-middleware', request.url));
+        return NextResponse.redirect(new URL('/login', request.url));
     }
 }
 

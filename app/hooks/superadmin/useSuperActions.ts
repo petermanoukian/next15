@@ -21,7 +21,7 @@ export function useSuperActions() {
 
 useEffect(() => {
   if (!isHydrated || loading) return;
-  if (!user) router.replace('/loginrtr');
+  if (!user) router.replace('/login');
 }, [loading, user, router]);
 
   return {

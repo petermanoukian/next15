@@ -26,7 +26,7 @@ export function UserActions() {
             } catch (error: any) {
                 //console.error('Failed to fetch user:', error);
                 if (error.response?.status === 401) {
-                    router.push('/login-useractions');
+                    router.push('/login');
                 }
             } finally {
                 setIsInitialLoad(false);

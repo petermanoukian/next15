@@ -94,9 +94,13 @@ const fetchSubcats = async (
     if (search) url.searchParams.set('search', search);
     if (selectedCatId) url.searchParams.set('catid', selectedCatId.toString());
 
-    console.log("🌎 Final API Request URL:", url.toString()); // Debugging request URL
+    console.log("🌎 Final API Request URL:", url.toString()); 
+    const rawUrl = url.toString(); 
+    const strippedUrl = rawUrl.replace(/^\/+/, ''); 
+    const finalUrl = api.defaults.baseURL + strippedUrl;
+    const res = await api.get(finalUrl);
 
-    const res = await api.get(url.toString());
+    //const res = await api.get(url.toString());
     
     console.log("✅ API Response:", res.data);
 
