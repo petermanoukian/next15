@@ -40,7 +40,7 @@ if (typeof window !== 'undefined') {
     async (error) => {
       if (error.response?.status === 419) {
         try {
-          await api.get('/sanctum/csrf-cookie');
+          await api.get('/api/sanctum/csrf-cookie');
 
           const token = document.cookie
             .split(';')
