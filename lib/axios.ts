@@ -40,7 +40,12 @@ if (typeof window !== 'undefined') {
     async (error) => {
       if (error.response?.status === 419) {
         try {
-          await api.get('/api/sanctum/csrf-cookie');
+          //await api.get('/api/sanctum/csrf-cookie');
+
+          const cleanPath = 'api/sanctum/csrf-cookie'; // strip leading slash
+          const fullUrl = 'https://corporatehappinessaward.com/next15-laravel-public/' + cleanPath;
+          alert(fullUrl);
+          await api.get(fullUrl);
 
           const token = document.cookie
             .split(';')
