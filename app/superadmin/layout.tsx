@@ -14,22 +14,19 @@ export default function SuperAdminLayout({
     const { user, isInitialLoad } = useSuperActions();
 
     useEffect(() => {
-        if (!isInitialLoad) {
-            if (!user) {
-                router.replace('/login');
-            } else {
-                switch (user.is_admin) {
-                    case 'superadmin':
-                        break;
-                    case 'admin':
-                        router.replace('/admin');
-                        break;
-                    case 'orduser':
-                        router.replace('/user');
-                        break;
-                    default:
-                        router.replace('/unauthorized');
-                }
+        if (!isInitialLoad && user) {
+            switch (user.is_admin) {
+                case 'superadmin':
+                    // ✅ Allowed access
+                    break;
+                case 'admin':
+                    router.replace('/admin');
+                    break;
+                case 'orduser':
+                    router.replace('/user');
+                    break;
+                default:
+                    router.replace('/unauthorized');
             }
         }
     }, [isInitialLoad, user, router]);

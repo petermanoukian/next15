@@ -21,6 +21,8 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+
+
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
@@ -38,6 +40,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const hydrateUser = async () => {
+            setLoading(true); // lock it
+            const userData = await loadAuthenticatedUser();
+            if (isMounted) {
+                setUser(userData);
+                setError(null);
+                setLoading(false);
+            }
+        };
+
+        hydrateUser(); // run once at startup
+
+        return () => {
+            isMounted = false;
+        };
+    }, []); // 👈 no dependency array, fire once only
+
+
+
 
     const login = async (email: string, password: string) => {
         try {
@@ -62,12 +87,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
     };
 
-    useEffect(() => {
-        // Only run on first hydration
-        if (user === null && loading) {
-            refreshUser();
-        }
-    }, [user, loading]);
 
     return (
         <AuthContext.Provider
