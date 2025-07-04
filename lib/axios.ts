@@ -44,7 +44,7 @@ if (typeof window !== 'undefined') {
 
           const cleanPath = 'api/sanctum/csrf-cookie'; // strip leading slash
           const fullUrl = 'https://corporatehappinessaward.com/next15-laravel-public/' + cleanPath;
-          alert(fullUrl);
+        
           await api.get(fullUrl);
 
           const token = document.cookie
