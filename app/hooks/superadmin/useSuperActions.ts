@@ -8,6 +8,7 @@ export function useSuperActions() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, logout, loading } = useAuth();
+  const isHydrated = typeof window !== 'undefined'; 
 
   const handleLogout = async () => {
     try {
@@ -18,13 +19,10 @@ export function useSuperActions() {
     }
   };
 
-  useEffect(() => {
-    if (loading) return;
-
-    if (!user) {
-      router.replace('/login?message=NoSession');
-    }
-  }, [loading, user, router]);
+useEffect(() => {
+  if (!isHydrated || loading) return;
+  if (!user) router.replace('/loginrtr');
+}, [loading, user, router]);
 
   return {
     user,
