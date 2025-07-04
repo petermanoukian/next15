@@ -11,7 +11,6 @@ export default function SuperAdminNav() {
     const { logout } = useAuth();
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
-
     useEffect(() => {
     console.log('super admin nav');
     }, []);

@@ -1,10 +1,7 @@
 import axios from 'axios';
-
 console.log('axios.ts file');
-
 const fallbackBackend = 'https://corporatehappinessaward.com/next15-laravel-public/';
 const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL || fallbackBackend;
-
 console.log('✅ Axios baseURL resolved to:', backendURL);
 
 const api = axios.create({
