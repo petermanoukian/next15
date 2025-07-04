@@ -62,6 +62,15 @@ useEffect(() => {
 
 const firstRender = useRef(true);
 
+
+useEffect(() => {
+
+
+
+    fetchSubcats();
+
+}, []);
+
 useEffect(() => {
   if (firstRender.current) {
     firstRender.current = false;
