@@ -169,11 +169,12 @@ export default function SuperAdminAddUserPage() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        
+        alert('start');
         //setFormErrors({});
 
         const errors = validateBeforeSubmit();
         if (Object.keys(errors).length > 0) {
+            alert('errors');
             setFormErrors(errors);
             return;
         }
