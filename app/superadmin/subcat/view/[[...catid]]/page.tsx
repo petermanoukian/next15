@@ -127,31 +127,21 @@ const fetchSubcats = async (
     if (!link.url) return { ...link, url: null };
 
     const parsed = new URL(link.url);
-    //alert(' parsed  ' + parsed);
-    // First pass: collapse repeated segments into one
+
+    // Collapse Laravel duplicate paths
     let clean1 = parsed.pathname.replace(/(next15-laravel-public\/)+/g, 'next15-laravel-public/');
-    //alert(' clean1  ' + clean1);
-    // Second pass: remove one more instance if it's still there
     let clean2 = clean1.replace(/next15-laravel-public\//, '');
-    //alert(' clean2  ' + clean2);
-
     const cleanedPath = '/' + clean2;
-    
-    const firstQ = parsed.search.indexOf('?');
-    const secondQ = parsed.search.indexOf('?', firstQ + 1);
 
-    const finalSearch =
-      secondQ !== -1
-        ? parsed.search.slice(0, secondQ) + '&' + parsed.search.slice(secondQ + 1)
-        : parsed.search;
+    // 🧼 Replace double ? with correct syntax
+    const fixedSearch = parsed.search.replace(/\?(.*)\?/, '?$1&');
 
     return {
       ...link,
-      url: cleanedPath + finalSearch,
-    }; 
-
-
+      url: cleanedPath + fixedSearch,
+    };
   });
+
 
   setPagination(prev => ({
     current_page: res.data.current_page ?? prev?.current_page ?? 1,
