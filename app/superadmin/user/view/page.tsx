@@ -114,7 +114,7 @@ export default function ViewUsersPage() {
         links: res.data.links,
       });
       */
-     
+
       router.replace(
         `/superadmin/user/view?sort_by=${sortBy}&sort_order=${sortOrder}&search=${search}&role=${role}`
       );
@@ -156,7 +156,12 @@ export default function ViewUsersPage() {
     if (!confirmed) return;
 
     try {
-      await api.delete(`/api/superadmin/user/deleteoneuser/${id}`);
+      //await api.delete(`/api/superadmin/user/deleteoneuser/${id}`);
+      const cleanPath = `api/superadmin/user/deleteoneuser/${id}`;
+      const finalUrl = api.defaults.baseURL + cleanPath;
+      await api.delete(finalUrl);
+
+
     
 
       // Refresh the list
@@ -195,9 +200,15 @@ export default function ViewUsersPage() {
     if (!confirmed) return;
 
     try {
+      /*
       await api.post('/api/superadmin/users/multidelete', {
         ids: selectedUserIds,
       });
+      */
+      const cleanPath = 'api/superadmin/users/multidelete';
+      const finalUrl = api.defaults.baseURL + cleanPath;
+      await api.post(finalUrl, { ids: selectedUserIds });
+
 
       setSelectedUserIds([]);
       fetchUsers();
