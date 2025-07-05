@@ -63,7 +63,7 @@ const fetchCats = async (
   const sanitizePaginationUrl = (url: string): string => {
     if (!url) return '';
 
-    // Strip first occurrence of the full domain and base path, KEEP `/api`
+
     /*
     const stripped = url.replace(
       /^https:\/\/corporatehappinessaward\.com\/next15-laravel-public\//,
@@ -71,11 +71,7 @@ const fetchCats = async (
     );
     */
     const escapedURL = APP_API_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-    //alert(' escapedURL ' + escapedURL);
     const stripped = url.replace(new RegExp(`^${escapedURL}`), '');
-    //alert(' stripped ' + stripped);
-    // Fix second "?" to be "&"
     const firstQ = stripped.indexOf('?');
     const secondQ = stripped.indexOf('?', firstQ + 1);
 

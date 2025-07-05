@@ -61,6 +61,37 @@ export default function ViewUsersPage() {
 
 
       setUserrs(res.data.data);
+
+      const sanitizePaginationUrl = (url: string): string => {
+        if (!url) return '';
+
+        const escapedURL = APP_API_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const stripped = url.replace(new RegExp(`^${escapedURL}`), '');
+
+        const firstQ = stripped.indexOf('?');
+        const secondQ = stripped.indexOf('?', firstQ + 1);
+
+        return secondQ !== -1
+          ? stripped.slice(0, secondQ) + '&' + stripped.slice(secondQ + 1)
+          : stripped;
+      };
+
+      setPagination(prev => ({
+        current_page: res.data.current_page ?? prev?.current_page ?? 1,
+        last_page: res.data.last_page ?? prev?.last_page ?? 1,
+        links: (res.data.links ?? prev?.links ?? []).map(link => {
+          const sanitizedUrl = link.url ? sanitizePaginationUrl(link.url) : null;
+          const finalUrl = sanitizedUrl ? appendQueryParams(sanitizedUrl) : null;
+
+          return {
+            ...link,
+            url: finalUrl,
+          };
+        }),
+      }));
+
+
+
       setPagination({
         current_page: res.data.current_page,
         last_page: res.data.last_page,
