@@ -104,44 +104,62 @@ const fetchSubcats = async (
     const cleanPath = baseUrl.replace(/^\/+/, '');
     const finalUrl = api.defaults.baseURL + cleanPath + '?' + params.toString();
     console.log("🌐 Final URL:", finalUrl);
-    console.log("🌎 Final Laravel API URL:", finalUrl);
-  
+
     const res = await api.get(finalUrl);
-    
-    console.log("✅ API Response:", res.data);
 
     setSubcats(res.data.data);
     setCats(res.data.cats);
 
-    console.log("📌 Setting Pagination with:", {
-      current_page: res.data.current_page,
-      last_page: res.data.last_page,
-      links: res.data.links,
-    });
+	const sanitizePaginationUrl = (url: string): string => {
+	  if (!url) return '';
 
-  const extractRelativePath = (full: string): string => {
-    try {
-      const parsed = new URL(full);
-      return parsed.pathname + parsed.search;
-    } catch {
-      return full; // Fallback if malformed
-    }
-  };
+	  // ✅ Collapse any duplicated `next15-laravel-public` sequences into one
+	  const cleaned = url.replace(
+		/(?:next15-laravel-public\/)+/g,
+		'next15-laravel-public/'
+	  );
 
-  setPagination((prev) => {
-    console.log("🕵️‍♂️ Previous Pagination:", prev);
-    console.log("📌 API Returned Pagination:", res.data.current_page, res.data.last_page);
+	  // ✅ Fix second "?" to be "&"
+	  const firstQ = cleaned.indexOf('?');
+	  const secondQ = cleaned.indexOf('?', firstQ + 1);
 
-    return {
-      current_page: res.data.current_page ?? prev?.current_page ?? 1,
-      last_page: res.data.last_page ?? prev?.last_page ?? 1,
-      links: (res.data.links ?? prev?.links ?? []).map(link => ({
-        ...link,
-        url: link.url ? extractRelativePath(link.url) : null,
-      })),
+	  return secondQ !== -1
+		? cleaned.slice(0, secondQ) + '&' + cleaned.slice(secondQ + 1)
+		: cleaned;
+	};
+
+
+    const appendQueryParams = (url: string): string => {
+      if (!url) return '';
+
+      const separator = url.includes('?') ? '&' : '?';
+
+      const params = new URLSearchParams();
+      params.set('sort_by', sortBy);
+      params.set('sort_order', sortOrder);
+      if (searchTerm) params.set('search', searchTerm);
+      if (categoryid) params.set('catid', categoryid.toString());
+
+      return `${url}${separator}${params.toString()}`;
     };
-  });
 
+    setPagination({
+      current_page: res.data.current_page ?? 1,
+      last_page: res.data.last_page ?? 1,
+      links: (res.data.links ?? []).map(link => {
+        const sanitizedUrl = link.url ? sanitizePaginationUrl(link.url) : null;
+        const finalUrl = sanitizedUrl ? appendQueryParams(sanitizedUrl) : null;
+
+        return {
+          ...link,
+          url: finalUrl,
+        };
+      }),
+    });
+  } catch (err) {
+    console.error("❌ Failed to fetch subcategories:", err);
+  }
+};
 
   /*
     setPagination((prev) => {
