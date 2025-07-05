@@ -119,28 +119,52 @@ const fetchSubcats = async (
       links: res.data.links,
     });
 
-  const extractRelativePath = (full: string): string => {
-    try {
-      const parsed = new URL(full);
-      return parsed.pathname + parsed.search;
-    } catch {
-      return full; // Fallback if malformed
-    }
-  };
+const sanitizePaginationUrl = (url: string): string => {
+  if (!url) return '';
 
-  setPagination((prev) => {
-    console.log("🕵️‍♂️ Previous Pagination:", prev);
-    console.log("📌 API Returned Pagination:", res.data.current_page, res.data.last_page);
+  // Remove duplicate Laravel paths (e.g., double next15-laravel-public)
+  const fixedPath = url.replace(
+    /https:\/\/corporatehappinessaward\.com\/(?:next15-laravel-public\/)+/,
+    'api/' // Keep only `api/...`
+  );
+
+  // Normalize double "?" to "&"
+  const firstQ = fixedPath.indexOf('?');
+  const secondQ = fixedPath.indexOf('?', firstQ + 1);
+
+  return secondQ !== -1
+    ? fixedPath.slice(0, secondQ) + '&' + fixedPath.slice(secondQ + 1)
+    : fixedPath;
+};
+
+const appendQueryParams = (url: string): string => {
+  if (!url) return '';
+
+  const separator = url.includes('?') ? '&' : '?';
+  const params = new URLSearchParams();
+  params.set('sort_by', sortBy);
+  params.set('sort_order', sortOrder);
+  if (searchTerm) params.set('search', searchTerm);
+  if (categoryid) params.set('catid', categoryid.toString());
+
+  return `${url}${separator}${params.toString()}`;
+};
+
+
+setPagination({
+  current_page: res.data.current_page ?? 1,
+  last_page: res.data.last_page ?? 1,
+  links: (res.data.links ?? []).map(link => {
+    const sanitizedUrl = link.url ? sanitizePaginationUrl(link.url) : null;
+    const finalUrl = sanitizedUrl ? appendQueryParams(sanitizedUrl) : null;
 
     return {
-      current_page: res.data.current_page ?? prev?.current_page ?? 1,
-      last_page: res.data.last_page ?? prev?.last_page ?? 1,
-      links: (res.data.links ?? prev?.links ?? []).map(link => ({
-        ...link,
-        url: link.url ? extractRelativePath(link.url) : null,
-      })),
+      ...link,
+      url: finalUrl,
     };
-  });
+  }),
+});
+
 
 
   /*
