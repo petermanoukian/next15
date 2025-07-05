@@ -72,9 +72,9 @@ const fetchCats = async (
     */
     const escapedURL = APP_API_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    alert(' escapedURL ' + escapedURL);
+    //alert(' escapedURL ' + escapedURL);
     const stripped = url.replace(new RegExp(`^${escapedURL}`), '');
-    alert(' stripped ' + stripped);
+    //alert(' stripped ' + stripped);
     // Fix second "?" to be "&"
     const firstQ = stripped.indexOf('?');
     const secondQ = stripped.indexOf('?', firstQ + 1);
