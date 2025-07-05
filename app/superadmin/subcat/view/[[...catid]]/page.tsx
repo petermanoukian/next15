@@ -119,23 +119,31 @@ const fetchSubcats = async (
       links: res.data.links,
     });
 
-const sanitizeLinks = (links: any[]) =>
-  links.map(link => {
-    if (!link.url) return { ...link, url: null };
 
-    let parsed = new URL(link.url);
+  const sanitizeLinks = (links: any[]) =>
+    links.map(link => {
+      if (!link.url) return { ...link, url: null };
 
-    // Fix repeated 'next15-laravel-public/' segments
-    const cleanedPath = parsed.pathname.replace(
-      /(next15-laravel-public\/)+/g,
-      'next15-laravel-public/'
-    );
+      let parsed = new URL(link.url);
 
-    return {
-      ...link,
-      url: cleanedPath + parsed.search,
-    };
-  });
+      // ✅ Alert full original URL
+      alert(`Original pagination URL: ${link.url}`);
+
+      // Collapse duplicates
+      const cleanedPath = parsed.pathname.replace(
+        /(next15-laravel-public\/)+/g,
+        'next15-laravel-public/'
+      );
+
+      // ✅ Alert cleaned path + search string
+      alert(`Sanitized URL: ${cleanedPath}${parsed.search}`);
+
+      return {
+        ...link,
+        url: cleanedPath + parsed.search,
+      };
+    });
+
 
 
 
