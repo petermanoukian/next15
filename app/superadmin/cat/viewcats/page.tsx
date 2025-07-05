@@ -103,7 +103,6 @@ const fetchCats = async (
     const sanitizedUrl = link.url ? sanitizePaginationUrl(link.url) : null;
     const finalUrl = sanitizedUrl ? appendQueryParams(sanitizedUrl) : null;
 
-    alert('🔥 FINAL → ' + finalUrl);
 
     return {
       ...link,
