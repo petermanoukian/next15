@@ -38,7 +38,7 @@ const fetchCats = async (
   search = searchTerm
 ) => {
   try {
-    alert(1);
+    
     const params = new URLSearchParams();
     params.set('sort_by', sortBy);
     params.set('sort_order', sortOrder);
@@ -51,23 +51,24 @@ const fetchCats = async (
 
     setCats(res.data.data);
 
-    const normalizeUrl = (full: string): string => {
-      const parsed = new URL(full);
-      return parsed.pathname + parsed.search; // Only relative part
+    const extractRelativePath = (full: string): string => {
+      try {
+        const parsed = new URL(full);
+        return parsed.pathname + parsed.search;
+      } catch {
+        return full; // Already relative or malformed
+      }
     };
-
-    const normalurl = normalizeUrl(link.url);
-    alert(normalurl);
-
 
     setPagination({
       current_page: res.data.current_page,
       last_page: res.data.last_page,
       links: res.data.links.map(link => ({
         ...link,
-        url: link.url ? normalizeUrl(link.url) : null,
+        url: link.url ? extractRelativePath(link.url) : null,
       })),
     });
+
     /*
 
     setPagination({
@@ -178,7 +179,7 @@ const fetchCats = async (
   return (
     <div>
       
-      <h1 className="text-2xl font-semibold mb-4">Categories (version 6)</h1>
+      <h1 className="text-2xl font-semibold mb-4">Categories (version 7.01)</h1>
       <div className='mt-2 mb-4'>
         <Link href = '/superadmin/cat/addcat' className='mt-2 mb-4'> &rsaquo; Add Category </Link>
       </div>

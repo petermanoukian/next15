@@ -119,20 +119,29 @@ const fetchSubcats = async (
       links: res.data.links,
     });
 
-    const sanitizeLinks = (links: any[]) =>
-    links.map(link => ({
-      ...link,
-      url: link.url ? new URL(link.url).pathname + new URL(link.url).search : null,
-    }));
+  const extractRelativePath = (full: string): string => {
+    try {
+      const parsed = new URL(full);
+      return parsed.pathname + parsed.search;
+    } catch {
+      return full; // Fallback if malformed
+    }
+  };
 
+  setPagination((prev) => {
+    console.log("🕵️‍♂️ Previous Pagination:", prev);
+    console.log("📌 API Returned Pagination:", res.data.current_page, res.data.last_page);
 
+    return {
+      current_page: res.data.current_page ?? prev?.current_page ?? 1,
+      last_page: res.data.last_page ?? prev?.last_page ?? 1,
+      links: (res.data.links ?? prev?.links ?? []).map(link => ({
+        ...link,
+        url: link.url ? extractRelativePath(link.url) : null,
+      })),
+    };
+  });
 
-
-  setPagination(prev => ({
-    current_page: res.data.current_page ?? prev?.current_page ?? 1,
-    last_page: res.data.last_page ?? prev?.last_page ?? 1,
-    links: sanitizeLinks(res.data.links ?? prev?.links ?? []),
-  }));
 
   /*
     setPagination((prev) => {
