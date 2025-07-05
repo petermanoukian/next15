@@ -8,7 +8,7 @@ import { useSuperActions } from '@/app/hooks/superadmin/useSuperActions';
 import  Pagination  from '@/app/components/superadmin/Pagination';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import { fallbackBackendURL2 } from '@/lib/config';
+import { APP_BASE_URL } from '@/lib/config';
 import CatFilterHeader from '@/app/components/superadmin/shop/cat/CatFilterHeader';
 import CatTableHeader from '@/app/components/superadmin/shop/cat/CatTableHeader';
 
@@ -70,7 +70,7 @@ const fetchCats = async (
       ''
     );
     */
-    const escapedURL = fallbackBackendURL2.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const escapedURL = APP_BASE_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 
     const stripped = url.replace(new RegExp(`^${escapedURL}`), '');
@@ -216,7 +216,7 @@ const fetchCats = async (
   return (
     <div>
       
-      <h1 className="text-2xl font-semibold mb-4">Categories (version 10 - 3 )</h1>
+      <h1 className="text-2xl font-semibold mb-4">Categories (version 10 - 4 )</h1>
       <div className='mt-2 mb-4'>
         <Link href = '/superadmin/cat/addcat' className='mt-2 mb-4'> &rsaquo; Add Category </Link>
       </div>
