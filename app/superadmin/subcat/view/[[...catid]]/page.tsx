@@ -104,69 +104,35 @@ const fetchSubcats = async (
     const cleanPath = baseUrl.replace(/^\/+/, '');
     const finalUrl = api.defaults.baseURL + cleanPath + '?' + params.toString();
     console.log("🌐 Final URL:", finalUrl);
-
+    console.log("🌎 Final Laravel API URL:", finalUrl);
+  
     const res = await api.get(finalUrl);
+    
+    console.log("✅ API Response:", res.data);
 
     setSubcats(res.data.data);
     setCats(res.data.cats);
 
-	const sanitizePaginationUrl = (url: string): string => {
-	  if (!url) return '';
-
-	  // ✅ Collapse any duplicated `next15-laravel-public` sequences into one
-    /*
-	  const cleaned = url.replace(
-		/(?:next15-laravel-public\/)+/g,
-		'next15-laravel-public/'
-	  );
-    */
-    const cleaned = url.replace(
-      /^https:\/\/corporatehappinessaward\.com\/next15-laravel-public\//,
-      ''
-    );
-
-
-	  // ✅ Fix second "?" to be "&"
-	  const firstQ = cleaned.indexOf('?');
-	  const secondQ = cleaned.indexOf('?', firstQ + 1);
-
-	  return secondQ !== -1
-		? cleaned.slice(0, secondQ) + '&' + cleaned.slice(secondQ + 1)
-		: cleaned;
-	};
-
-
-    const appendQueryParams = (url: string): string => {
-      if (!url) return '';
-
-      const separator = url.includes('?') ? '&' : '?';
-
-      const params = new URLSearchParams();
-      params.set('sort_by', sortBy);
-      params.set('sort_order', sortOrder);
-      if (searchTerm) params.set('search', searchTerm);
-      if (categoryid) params.set('catid', categoryid.toString());
-
-      return `${url}${separator}${params.toString()}`;
-    };
-
-    setPagination({
-      current_page: res.data.current_page ?? 1,
-      last_page: res.data.last_page ?? 1,
-      links: (res.data.links ?? []).map(link => {
-        const sanitizedUrl = link.url ? sanitizePaginationUrl(link.url) : null;
-        //const finalUrl = sanitizedUrl ? appendQueryParams(sanitizedUrl) : null;
-        const finalUrl = sanitizedUrl;
-        return {
-          ...link,
-          url: finalUrl,
-        };
-      }),
+    console.log("📌 Setting Pagination with:", {
+      current_page: res.data.current_page,
+      last_page: res.data.last_page,
+      links: res.data.links,
     });
-  } catch (err) {
-    console.error("❌ Failed to fetch subcategories:", err);
-  }
-};
+
+    const sanitizeLinks = (links: any[]) =>
+    links.map(link => ({
+      ...link,
+      url: link.url ? new URL(link.url).pathname + new URL(link.url).search : null,
+    }));
+
+
+
+
+  setPagination(prev => ({
+    current_page: res.data.current_page ?? prev?.current_page ?? 1,
+    last_page: res.data.last_page ?? prev?.last_page ?? 1,
+    links: sanitizeLinks(res.data.links ?? prev?.links ?? []),
+  }));
 
   /*
     setPagination((prev) => {
@@ -181,6 +147,22 @@ const fetchSubcats = async (
     });
   */
 
+  console.log("📌 Updated Pagination State:", pagination);
+
+  if (selectedCatId !== null) {
+      console.log("🔄 Updating URL with categoryid:", selectedCatId);
+  }
+    /*
+      router.replace(
+        `/superadmin/subcat/view?sort_by=${sortBy}&sort_order=${sortOrder}&search=${search}&catid=${categoryid}`
+      );
+    */
+  } catch (err) {
+    console.error("❌ Error Fetching:", err);
+  } finally {
+    setLoading(false);
+  }
+};
 
 
   useEffect(() => {
