@@ -60,34 +60,50 @@ const fetchCats = async (
     };
 */
 
-const sanitizePaginationUrl = (url: string): string => {
-  if (!url) return '';
+  const sanitizePaginationUrl = (url: string): string => {
+    if (!url) return '';
 
-  // Strip first occurrence of the full domain and base path, KEEP `/api`
-  const stripped = url.replace(
-    /^https:\/\/corporatehappinessaward\.com\/next15-laravel-public\//,
-    ''
-  );
+    // Strip first occurrence of the full domain and base path, KEEP `/api`
+    const stripped = url.replace(
+      /^https:\/\/corporatehappinessaward\.com\/next15-laravel-public\//,
+      ''
+    );
 
-  // Fix second "?" to be "&"
-  const firstQ = stripped.indexOf('?');
-  const secondQ = stripped.indexOf('?', firstQ + 1);
+    // Fix second "?" to be "&"
+    const firstQ = stripped.indexOf('?');
+    const secondQ = stripped.indexOf('?', firstQ + 1);
 
-  return secondQ !== -1
-    ? stripped.slice(0, secondQ) + '&' + stripped.slice(secondQ + 1)
-    : stripped;
-};
-
-
+    return secondQ !== -1
+      ? stripped.slice(0, secondQ) + '&' + stripped.slice(secondQ + 1)
+      : stripped;
+  };
 
 
-setPagination({
+  const appendQueryParams = (url: string): string => {
+    if (!url) return '';
+
+    const separator = url.includes('?') ? '&' : '?';
+
+    const params = new URLSearchParams();
+    params.set('sort_by', sortBy);
+    params.set('sort_order', sortOrder);
+    if (searchTerm) params.set('search', searchTerm);
+
+    return `${url}${separator}${params.toString()}`;
+  };
+
+
+
+
+
+ setPagination({
   current_page: res.data.current_page ?? 1,
   last_page: res.data.last_page ?? 1,
   links: (res.data.links ?? []).map(link => {
-    const finalUrl = link.url ? sanitizePaginationUrl(link.url) : null;
+    const sanitizedUrl = link.url ? sanitizePaginationUrl(link.url) : null;
+    const finalUrl = sanitizedUrl ? appendQueryParams(sanitizedUrl) : null;
 
-    alert('🔥 FINAL FIXED LINK → ' + finalUrl);
+    alert('🔥 FINAL → ' + finalUrl);
 
     return {
       ...link,
@@ -95,6 +111,7 @@ setPagination({
     };
   }),
 });
+
 
 
 
