@@ -85,6 +85,7 @@ useEffect(() => {
 
 
 const fetchSubcats = async (
+  alert(1);
   baseUrl = '/api/superadmin/subcats/viewsubcats',
   search = searchTerm,
   selectedCatId = categoryid
@@ -276,7 +277,7 @@ if (categoryid === undefined) {
   return (
     <div>
       
-      <h1 className="text-2xl font-semibold mb-4">SubCategories version 2.02</h1>
+      <h1 className="text-2xl font-semibold mb-4">SubCategories version 3.02</h1>
       <div className='mt-2 mb-4'>
   
       <Link href={`/superadmin/subcat/add${categoryid ? `?catid=${categoryid}` : ''}`} className="mt-2 mb-4">
