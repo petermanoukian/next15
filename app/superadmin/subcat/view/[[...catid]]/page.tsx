@@ -119,6 +119,19 @@ const fetchSubcats = async (
       links: res.data.links,
     });
 
+    const sanitizeLinks = (links: any[]) =>
+    links.map(link => ({
+      ...link,
+      url: link.url ? new URL(link.url).pathname + new URL(link.url).search : null,
+    }));
+
+  setPagination(prev => ({
+    current_page: res.data.current_page ?? prev?.current_page ?? 1,
+    last_page: res.data.last_page ?? prev?.last_page ?? 1,
+    links: sanitizeLinks(res.data.links ?? prev?.links ?? []),
+  }));
+
+  /*
     setPagination((prev) => {
       console.log("🕵️‍♂️ Previous Pagination:", prev);
       console.log("📌 API Returned Pagination:", res.data.current_page, res.data.last_page);
@@ -129,13 +142,13 @@ const fetchSubcats = async (
         links: res.data.links ?? prev?.links ?? [],
       };
     });
+  */
 
+  console.log("📌 Updated Pagination State:", pagination);
 
-    console.log("📌 Updated Pagination State:", pagination);
-
-    if (selectedCatId !== null) {
+  if (selectedCatId !== null) {
       console.log("🔄 Updating URL with categoryid:", selectedCatId);
-    }
+  }
     /*
       router.replace(
         `/superadmin/subcat/view?sort_by=${sortBy}&sort_order=${sortOrder}&search=${search}&catid=${categoryid}`

@@ -49,12 +49,28 @@ const fetchCats = async (
     const res = await api.get(fullUrl); // now uses the correct Laravel backend
 
     setCats(res.data.data);
+
+    const normalizeUrl = (full: string): string => {
+      const parsed = new URL(full);
+      return parsed.pathname + parsed.search; // Only relative part
+    };
+
+    setPagination({
+      current_page: res.data.current_page,
+      last_page: res.data.last_page,
+      links: res.data.links.map(link => ({
+        ...link,
+        url: link.url ? normalizeUrl(link.url) : null,
+      })),
+    });
+    /*
+
     setPagination({
       current_page: res.data.current_page,
       last_page: res.data.last_page,
       links: res.data.links,
     });
-
+    */
     router.replace(
       `/superadmin/cat/viewcats?sort_by=${sortBy}&sort_order=${sortOrder}&search=${search}`
     );
