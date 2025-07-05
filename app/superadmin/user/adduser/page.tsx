@@ -63,7 +63,14 @@ export default function SuperAdminAddUserPage() {
         setEmailChecking(true);
         setEmailCheckMessage('');
         try {
-            const res = await api.post('/api/superadmin/users/check-email', { email });
+            //const res = await api.post('/api/superadmin/users/check-email', { email });
+
+            const cleanPath = 'api/superadmin/users/check-email';
+            const finalUrl = api.defaults.baseURL + cleanPath;
+            const res = await api.post(finalUrl, { email });
+
+
+
             if (res.data.valid) {
                 setEmailCheckMessage('✅ Email is available.');
                 setEmailExists(false);
@@ -182,11 +189,22 @@ export default function SuperAdminAddUserPage() {
 
         try {
             //await api.get('/sanctum/csrf-cookie');
+            /*
             const res = await api.post('/api/superadmin/user/adduser', payload, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
+            */
+            const cleanPath = 'api/superadmin/user/adduser';
+            const finalUrl = api.defaults.baseURL + cleanPath;
+            const res = await api.post(finalUrl, payload, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            });
+
+
 
             router.push('/superadmin/user/view?message=User+created+successfully');
 

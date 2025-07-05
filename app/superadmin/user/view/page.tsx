@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import UserTableHeader from '@/app/components/superadmin/accounts/UserTableHeader';
 import UserFilterHeader from '@/app/components/superadmin/accounts/UserFilterHeader';
 import UserTableRow, { UserPerformer } from '@/app/components/superadmin/accounts/UserTableRow';
-
+import { APP_API_URL } from '@/lib/config';
 
 
 interface User {
@@ -53,6 +53,13 @@ export default function ViewUsersPage() {
       if (role) url.searchParams.set('role', role);
 
       const res = await api.get(url.toString());
+
+      const cleanPath = baseUrl.replace(/^\/+/, '');
+      const fullUrl = api.defaults.baseURL + cleanPath + '?' + url.searchParams.toString();
+      const res = await api.get(fullUrl); // now uses the correct Laravel backend
+
+
+
       setUserrs(res.data.data);
       setPagination({
         current_page: res.data.current_page,
