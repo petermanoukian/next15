@@ -60,46 +60,37 @@ const fetchCats = async (
     };
 */
 
-const sanitizePaginationUrl = (url: string): string => {
+const fixFinalPaginationUrl = (url: string): string => {
   if (!url) return '';
 
-  // Strip the full Laravel base
-  const stripped = url.replace(
-    /^https:\/\/corporatehappinessaward\.com\/next15-laravel-public\/(?:api\/)?/,
-    ''
-  );
+  // Strip Laravel base if present
+  const stripped = url.replace(/^https:\/\/corporatehappinessaward\.com\/next15-laravel-public\/(?:api\/)?/, '');
 
-  // Fix second "?" → replace with "&"
-  const firstQIndex = stripped.indexOf('?');
-  const secondQIndex = stripped.indexOf('?', firstQIndex + 1);
+  // If the link already contains a "?", append extras using "&"
+  const hasQuery = stripped.includes('?');
+  const suffix = `sort_by=${sortBy}&sort_order=${sortOrder}${searchTerm ? `&search=${searchTerm}` : ''}`;
 
-  if (secondQIndex !== -1) {
-    return (
-      stripped.slice(0, secondQIndex) + '&' + stripped.slice(secondQIndex + 1)
-    );
-  }
-
-  return stripped;
+  return hasQuery ? `/${stripped}&${suffix}` : `/${stripped}?${suffix}`;
 };
 
 
 
-    setPagination({
-      current_page: res.data.current_page ?? 1,
-      last_page: res.data.last_page ?? 1,
-      links: (res.data.links ?? []).map(link => {
-        const sanitizedUrl = link.url ? sanitizePaginationUrl(link.url) : null;
 
-        if (sanitizedUrl) {
-          alert('🔥 Sanitized Link → ' + sanitizedUrl);
-        }
+setPagination({
+  current_page: res.data.current_page ?? 1,
+  last_page: res.data.last_page ?? 1,
+  links: (res.data.links ?? []).map(link => {
+    const finalUrl = link.url ? fixFinalPaginationUrl(link.url) : null;
 
-        return {
-          ...link,
-          url: sanitizedUrl,
-        };
-      }),
-    });
+    alert('🔥 FINAL CLEANED LINK: ' + finalUrl); // Confirm it's clean
+
+    return {
+      ...link,
+      url: finalUrl,
+    };
+  }),
+});
+
 
 
 
