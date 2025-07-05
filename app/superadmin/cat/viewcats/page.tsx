@@ -57,30 +57,36 @@ const fetchCats = async (
 
     // ✅ Only remove first duplicate Laravel prefix
     const sanitizePaginationUrl = (url: string): string => {
-      return url.replace(
-        /^https:\/\/corporatehappinessaward\.com\/next15-laravel-public\//,
-        ''
-      );
+      if (!url) return '';
+
+      // Remove domain prefix
+      const trimmed = url.replace(/^https:\/\/corporatehappinessaward\.com\/next15-laravel-public\/(?:api\/)?/, '');
+
+      // Fix double question mark
+      const [path, query] = trimmed.split('?');
+      const queryParams = query ? new URLSearchParams(query) : new URLSearchParams();
+
+      // Append additional sort/search params if needed
+      queryParams.set('sort_by', sortBy);
+      queryParams.set('sort_order', sortOrder);
+      if (searchTerm) queryParams.set('search', searchTerm);
+
+      return `/${path}?${queryParams.toString()}`;
     };
 
-    setPagination({
-      current_page: res.data.current_page ?? 1,
-      last_page: res.data.last_page ?? 1,
-      links: (res.data.links ?? []).map(link => {
-        const sanitized = link.url ? sanitizePaginationUrl(link.url) : null;
 
-        const finalUrl = sanitized
-          ? `/superadmin/cat/viewcats?${sanitized.split('?')[1]}`
-          : null;
-
-        console.log('🔗 Final pagination link:', finalUrl);
-
-        return {
-          ...link,
-          url: finalUrl,
-        };
-      }),
-    });
+   setPagination({
+  current_page: res.data.current_page ?? 1,
+  last_page: res.data.last_page ?? 1,
+  links: (res.data.links ?? []).map(link => {
+    const finalUrl = link.url ? sanitizePaginationUrl(link.url) : null;
+    console.log('🔗 Final pagination link:', finalUrl);
+    return {
+      ...link,
+      url: finalUrl,
+    };
+  }),
+});
 
     // ✅ Update browser URL (optional, for consistency)
     router.replace(
