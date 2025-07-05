@@ -140,15 +140,12 @@ const fetchSubcats = async (
       // ✅ Alert cleaned path + search string
       alert(`Sanitized URL: ${cleanedPath}${parsed.search}`);
 
+      
       return {
         ...link,
-        url: cleanedPath + parsed.search,
+        url: '/' + cleanedPath + parsed.search,
       };
     });
-
-
-
-
 
 
   setPagination(prev => ({
