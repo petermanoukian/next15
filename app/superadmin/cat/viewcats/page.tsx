@@ -38,6 +38,7 @@ const fetchCats = async (
   search = searchTerm
 ) => {
   try {
+    alert(1);
     const params = new URLSearchParams();
     params.set('sort_by', sortBy);
     params.set('sort_order', sortOrder);
@@ -177,7 +178,7 @@ const fetchCats = async (
   return (
     <div>
       
-      <h1 className="text-2xl font-semibold mb-4">Categories (version 5)</h1>
+      <h1 className="text-2xl font-semibold mb-4">Categories (version 6)</h1>
       <div className='mt-2 mb-4'>
         <Link href = '/superadmin/cat/addcat' className='mt-2 mb-4'> &rsaquo; Add Category </Link>
       </div>
