@@ -76,6 +76,23 @@ export default function ViewUsersPage() {
           : stripped;
       };
 
+
+
+
+      const appendQueryParams = (url: string): string => {
+        if (!url) return '';
+
+        const separator = url.includes('?') ? '&' : '?';
+
+        const params = new URLSearchParams();
+        params.set('sort_by', sortBy);
+        params.set('sort_order', sortOrder);
+        if (searchTerm) params.set('search', searchTerm);
+        if (roleFilter) params.set('role', roleFilter);
+
+        return `${url}${separator}${params.toString()}`;
+      };
+
       setPagination(prev => ({
         current_page: res.data.current_page ?? prev?.current_page ?? 1,
         last_page: res.data.last_page ?? prev?.last_page ?? 1,
@@ -90,14 +107,14 @@ export default function ViewUsersPage() {
         }),
       }));
 
-
-
+      /*
       setPagination({
         current_page: res.data.current_page,
         last_page: res.data.last_page,
         links: res.data.links,
       });
-
+      */
+     
       router.replace(
         `/superadmin/user/view?sort_by=${sortBy}&sort_order=${sortOrder}&search=${search}&role=${role}`
       );
