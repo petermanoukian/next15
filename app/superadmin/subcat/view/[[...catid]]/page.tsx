@@ -122,31 +122,23 @@ const fetchSubcats = async (
     });
 
 
-  const sanitizeLinks = (links: any[]) =>
-    links.map(link => {
-      if (!link.url) return { ...link, url: null };
+ const sanitizeLinks = (links: any[]) =>
+  links.map(link => {
+    if (!link.url) return { ...link, url: null };
 
-      let parsed = new URL(link.url);
-
-      // ✅ Alert full original URL
-      alert(`Original pagination URL: ${link.url}`);
-
-      // Collapse duplicates
-  const cleanedPath = parsed.pathname.replace(
-      /(next15-laravel-public\/){2}/,
-      ''
-    );
-
-      // ✅ Alert cleaned path + search string
-      alert(`Sanitized URL: ${cleanedPath}${parsed.search}`);
-
-      
-      return {
-        ...link,
-        url: '/' + cleanedPath + parsed.search,
-      };
-    });
-
+    const parsed = new URL(link.url);
+    alert(' parsed  ' + parsed);
+    // First pass: collapse repeated segments into one
+    let clean1 = parsed.pathname.replace(/(next15-laravel-public\/)+/g, 'next15-laravel-public/');
+    alert(' clean1  ' + clean1);
+    // Second pass: remove one more instance if it's still there
+    let clean2 = clean1.replace(/next15-laravel-public\//, '');
+    alert(' clean2  ' + clean2);
+    return {
+      ...link,
+      url: '/' + clean2 + parsed.search,
+    };
+  });
 
   setPagination(prev => ({
     current_page: res.data.current_page ?? prev?.current_page ?? 1,
