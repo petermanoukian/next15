@@ -55,6 +55,10 @@ const fetchCats = async (
       return parsed.pathname + parsed.search; // Only relative part
     };
 
+    const normalurl = normalizeUrl(link.url);
+    alert(normalurl);
+
+
     setPagination({
       current_page: res.data.current_page,
       last_page: res.data.last_page,

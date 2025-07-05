@@ -125,6 +125,9 @@ const fetchSubcats = async (
       url: link.url ? new URL(link.url).pathname + new URL(link.url).search : null,
     }));
 
+
+
+
   setPagination(prev => ({
     current_page: res.data.current_page ?? prev?.current_page ?? 1,
     last_page: res.data.last_page ?? prev?.last_page ?? 1,
