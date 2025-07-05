@@ -91,7 +91,7 @@ const fetchSubcats = async (
   selectedCatId = categoryid
 ) => {
   try {
-    alert(" Fetching Subcategories..");
+    
     console.log("🔍 Fetching Subcategories...");
     console.log("➡️ Selected Category ID:", selectedCatId);
     console.log("🔍 Search Term:", search);
@@ -144,31 +144,32 @@ const fetchSubcats = async (
 
 
   const appendQueryParams = (url: string): string => {
-  if (!url) return '';
+    if (!url) return '';
 
-  const separator = url.includes('?') ? '&' : '?';
+    const separator = url.includes('?') ? '&' : '?';
 
-  const params = new URLSearchParams();
-  params.set('sort_by', sortBy);
-  params.set('sort_order', sortOrder);
-  if (searchTerm) params.set('search', searchTerm);
-  if (categoryid) params.set('catid', categoryid.toString());
+    const params = new URLSearchParams();
+    params.set('sort_by', sortBy);
+    params.set('sort_order', sortOrder);
+    if (searchTerm) params.set('search', searchTerm);
+    if (categoryid) params.set('catid', categoryid.toString());
 
-  return `${url}${separator}${params.toString()}`;
-};
-setPagination(prev => ({
-  current_page: res.data.current_page ?? prev?.current_page ?? 1,
-  last_page: res.data.last_page ?? prev?.last_page ?? 1,
-  links: (res.data.links ?? prev?.links ?? []).map(link => {
-    const sanitizedUrl = link.url ? sanitizeLinks([link])[0].url : null;
-    const finalUrl = sanitizedUrl ? appendQueryParams(sanitizedUrl) : null;
+    return `${url}${separator}${params.toString()}`;
+  };
+  
+  setPagination(prev => ({
+    current_page: res.data.current_page ?? prev?.current_page ?? 1,
+    last_page: res.data.last_page ?? prev?.last_page ?? 1,
+    links: (res.data.links ?? prev?.links ?? []).map(link => {
+      const sanitizedUrl = link.url ? sanitizeLinks([link])[0].url : null;
+      const finalUrl = sanitizedUrl ? appendQueryParams(sanitizedUrl) : null;
 
-    return {
-      ...link,
-      url: finalUrl,
-    };
-  }),
-}));
+      return {
+        ...link,
+        url: finalUrl,
+      };
+    }),
+  }));
 
 
   /*

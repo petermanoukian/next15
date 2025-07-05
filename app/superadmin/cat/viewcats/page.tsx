@@ -8,7 +8,7 @@ import { useSuperActions } from '@/app/hooks/superadmin/useSuperActions';
 import  Pagination  from '@/app/components/superadmin/Pagination';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-
+import { fallbackBackendURL } from '@/lib/config';
 import CatFilterHeader from '@/app/components/superadmin/shop/cat/CatFilterHeader';
 import CatTableHeader from '@/app/components/superadmin/shop/cat/CatTableHeader';
 
@@ -64,10 +64,13 @@ const fetchCats = async (
     if (!url) return '';
 
     // Strip first occurrence of the full domain and base path, KEEP `/api`
+    /*
     const stripped = url.replace(
       /^https:\/\/corporatehappinessaward\.com\/next15-laravel-public\//,
       ''
     );
+    */
+    const stripped = url.replace(new RegExp(`^${fallbackBackendURL}`), '');
 
     // Fix second "?" to be "&"
     const firstQ = stripped.indexOf('?');
@@ -107,11 +110,6 @@ const fetchCats = async (
       };
     }),
   });
-
-
-
-
-
 
     /*
 
@@ -181,9 +179,6 @@ const fetchCats = async (
     }
   };
 
-
-  
-
   const toggleSelect = (id: number) => {
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((uid) => uid !== id) : [...prev, id]
@@ -201,10 +196,8 @@ const fetchCats = async (
   const handleMultiDelete = async () => {
     const confirmed = window.confirm(`Delete ${selectedIds.length} selected records?`);
     if (!confirmed) return;
-
-
-    try {
-   
+    try 
+    {
       const cleanPath = 'api/superadmin/cats/multidelete';
       const finalUrl = api.defaults.baseURL + cleanPath;
       await api.post(finalUrl, { ids: selectedIds });
@@ -220,7 +213,7 @@ const fetchCats = async (
   return (
     <div>
       
-      <h1 className="text-2xl font-semibold mb-4">Categories (version 10 - 1 )</h1>
+      <h1 className="text-2xl font-semibold mb-4">Categories (version 10 - 2 )</h1>
       <div className='mt-2 mb-4'>
         <Link href = '/superadmin/cat/addcat' className='mt-2 mb-4'> &rsaquo; Add Category </Link>
       </div>
