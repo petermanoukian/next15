@@ -127,27 +127,49 @@ const fetchSubcats = async (
     if (!link.url) return { ...link, url: null };
 
     const parsed = new URL(link.url);
-
-    // Collapse Laravel duplicate paths
+    //alert(' parsed  ' + parsed);
+    // First pass: collapse repeated segments into one
     let clean1 = parsed.pathname.replace(/(next15-laravel-public\/)+/g, 'next15-laravel-public/');
+    //alert(' clean1  ' + clean1);
+    // Second pass: remove one more instance if it's still there
     let clean2 = clean1.replace(/next15-laravel-public\//, '');
-    const cleanedPath = '/' + clean2;
-
-    // 🧼 Replace double ? with correct syntax
-    const fixedSearch = parsed.search.replace(/\?(.*)\?/, '?$1&');
-    alert(' fixedSearch ' + fixedSearch);
+    //alert(' clean2  ' + clean2);
     return {
       ...link,
-      url: cleanedPath + fixedSearch,
+      url: '/' + clean2 + parsed.search,
     };
   });
 
 
-  setPagination(prev => ({
-    current_page: res.data.current_page ?? prev?.current_page ?? 1,
-    last_page: res.data.last_page ?? prev?.last_page ?? 1,
-    links: sanitizeLinks(res.data.links ?? prev?.links ?? []),
-  }));
+
+
+  const appendQueryParams = (url: string): string => {
+  if (!url) return '';
+
+  const separator = url.includes('?') ? '&' : '?';
+
+  const params = new URLSearchParams();
+  params.set('sort_by', sortBy);
+  params.set('sort_order', sortOrder);
+  if (searchTerm) params.set('search', searchTerm);
+  if (categoryid) params.set('catid', categoryid.toString());
+
+  return `${url}${separator}${params.toString()}`;
+};
+setPagination(prev => ({
+  current_page: res.data.current_page ?? prev?.current_page ?? 1,
+  last_page: res.data.last_page ?? prev?.last_page ?? 1,
+  links: (res.data.links ?? prev?.links ?? []).map(link => {
+    const sanitizedUrl = link.url ? sanitizeLinks([link])[0].url : null;
+    const finalUrl = sanitizedUrl ? appendQueryParams(sanitizedUrl) : null;
+
+    return {
+      ...link,
+      url: finalUrl,
+    };
+  }),
+}));
+
 
   /*
     setPagination((prev) => {

@@ -106,7 +106,7 @@ const fetchCats = async (
         url: finalUrl,
       };
     }),
-});
+  });
 
 
 
