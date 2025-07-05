@@ -132,10 +132,10 @@ const fetchSubcats = async (
       alert(`Original pagination URL: ${link.url}`);
 
       // Collapse duplicates
-      const cleanedPath = parsed.pathname.replace(
-        /(next15-laravel-public\/)+/g,
-        'next15-laravel-public/'
-      );
+  const cleanedPath = parsed.pathname.replace(
+      /(next15-laravel-public\/){2}/,
+      ''
+    );
 
       // ✅ Alert cleaned path + search string
       alert(`Sanitized URL: ${cleanedPath}${parsed.search}`);
