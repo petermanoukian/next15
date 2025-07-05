@@ -119,11 +119,24 @@ const fetchSubcats = async (
       links: res.data.links,
     });
 
-    const sanitizeLinks = (links: any[]) =>
-    links.map(link => ({
+const sanitizeLinks = (links: any[]) =>
+  links.map(link => {
+    if (!link.url) return { ...link, url: null };
+
+    let parsed = new URL(link.url);
+
+    // Fix repeated 'next15-laravel-public/' segments
+    const cleanedPath = parsed.pathname.replace(
+      /(next15-laravel-public\/)+/g,
+      'next15-laravel-public/'
+    );
+
+    return {
       ...link,
-      url: link.url ? new URL(link.url).pathname + new URL(link.url).search : null,
-    }));
+      url: cleanedPath + parsed.search,
+    };
+  });
+
 
 
 

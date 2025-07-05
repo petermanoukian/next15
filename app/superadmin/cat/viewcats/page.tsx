@@ -51,14 +51,14 @@ const fetchCats = async (
 
     setCats(res.data.data);
     console.log(res.data.data);
-// ✅ Remove entire full Laravel base, regardless of how many times it appears
-  /*
-    const sanitizePaginationUrl = (url: string): string => {
-      return url
-        .replace(/https?:\/\/[^/]+\/next15-laravel-public\/api/g, '') // remove ALL Laravel full paths
-        .replace(/^\/+/, ''); // cleanup any leading slashes
-    };
-*/
+    // ✅ Remove entire full Laravel base, regardless of how many times it appears
+      /*
+        const sanitizePaginationUrl = (url: string): string => {
+          return url
+            .replace(/https?:\/\/[^/]+\/next15-laravel-public\/api/g, '') // remove ALL Laravel full paths
+            .replace(/^\/+/, ''); // cleanup any leading slashes
+        };
+    */
 
   const sanitizePaginationUrl = (url: string): string => {
     if (!url) return '';
@@ -93,22 +93,19 @@ const fetchCats = async (
   };
 
 
+  setPagination({
+    current_page: res.data.current_page ?? 1,
+    last_page: res.data.last_page ?? 1,
+    links: (res.data.links ?? []).map(link => {
+      const sanitizedUrl = link.url ? sanitizePaginationUrl(link.url) : null;
+      const finalUrl = sanitizedUrl ? appendQueryParams(sanitizedUrl) : null;
 
 
-
- setPagination({
-  current_page: res.data.current_page ?? 1,
-  last_page: res.data.last_page ?? 1,
-  links: (res.data.links ?? []).map(link => {
-    const sanitizedUrl = link.url ? sanitizePaginationUrl(link.url) : null;
-    const finalUrl = sanitizedUrl ? appendQueryParams(sanitizedUrl) : null;
-
-
-    return {
-      ...link,
-      url: finalUrl,
-    };
-  }),
+      return {
+        ...link,
+        url: finalUrl,
+      };
+    }),
 });
 
 
