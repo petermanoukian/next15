@@ -60,12 +60,28 @@ const fetchCats = async (
     };
 */
 
-    const sanitizePaginationUrl = (url: string): string => {
-      return url.replace(
-        /^https:\/\/corporatehappinessaward\.com\/next15-laravel-public\//,
-        ''
-      );
-    };
+const sanitizePaginationUrl = (url: string): string => {
+  if (!url) return '';
+
+  // Strip the full Laravel base
+  const stripped = url.replace(
+    /^https:\/\/corporatehappinessaward\.com\/next15-laravel-public\/(?:api\/)?/,
+    ''
+  );
+
+  // Fix second "?" → replace with "&"
+  const firstQIndex = stripped.indexOf('?');
+  const secondQIndex = stripped.indexOf('?', firstQIndex + 1);
+
+  if (secondQIndex !== -1) {
+    return (
+      stripped.slice(0, secondQIndex) + '&' + stripped.slice(secondQIndex + 1)
+    );
+  }
+
+  return stripped;
+};
+
 
 
     setPagination({
