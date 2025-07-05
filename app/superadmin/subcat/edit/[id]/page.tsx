@@ -87,9 +87,14 @@ export default function EditSubCatPage() {
 
 
         try {
-              const cleanPath = `api/superadmin/subcat/edit/${id}`;
-              const finalUrl = api.defaults.baseURL + cleanPath;
-              const res = await api.get(finalUrl);
+            const cleanPath = 'api/superadmin/subcats/check-subcat-edit';
+            const finalUrl = api.defaults.baseURL + cleanPath;
+
+            const res = await api.post(finalUrl, {
+              name,
+              id,
+              catid: selectedCatId,
+            });
 
 
             if (res.data.valid) {

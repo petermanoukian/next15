@@ -84,7 +84,9 @@ export default function SuperAdminNav() {
                             <span className="text-sm text-gray-500">({user?.is_admin})</span>
                         </button>
                         <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
-                            <Link href="/superadmin/profile/edit" className="block px-4 py-2 hover:bg-gray-100 text-sm text-gray-800">
+                            <Link 
+                            href={`/superadmin/user/edit/${user?.id}`}
+                            className="block px-4 py-2 hover:bg-gray-100 text-sm text-gray-800">
                                 Edit Profile
                             </Link>
                             <button
