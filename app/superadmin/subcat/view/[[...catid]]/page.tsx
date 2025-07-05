@@ -174,22 +174,6 @@ const fetchSubcats = async (
     });
   */
 
-  console.log("📌 Updated Pagination State:", pagination);
-
-  if (selectedCatId !== null) {
-      console.log("🔄 Updating URL with categoryid:", selectedCatId);
-  }
-    /*
-      router.replace(
-        `/superadmin/subcat/view?sort_by=${sortBy}&sort_order=${sortOrder}&search=${search}&catid=${categoryid}`
-      );
-    */
-  } catch (err) {
-    console.error("❌ Error Fetching:", err);
-  } finally {
-    setLoading(false);
-  }
-};
 
 
   useEffect(() => {
