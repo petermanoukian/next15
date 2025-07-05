@@ -135,7 +135,7 @@ const fetchSubcats = async (
 
     // 🧼 Replace double ? with correct syntax
     const fixedSearch = parsed.search.replace(/\?(.*)\?/, '?$1&');
-
+    alert(' fixedSearch ' + fixedSearch);
     return {
       ...link,
       url: cleanedPath + fixedSearch,
