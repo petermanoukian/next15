@@ -8,7 +8,7 @@ import { useSuperActions } from '@/app/hooks/superadmin/useSuperActions';
 import  Pagination  from '@/app/components/superadmin/Pagination';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import { APP_BASE_URL } from '@/lib/config';
+import { APP_API_URL } from '@/lib/config';
 import CatFilterHeader from '@/app/components/superadmin/shop/cat/CatFilterHeader';
 import CatTableHeader from '@/app/components/superadmin/shop/cat/CatTableHeader';
 
@@ -70,7 +70,7 @@ const fetchCats = async (
       ''
     );
     */
-    const escapedURL = APP_BASE_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const escapedURL = APP_API_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
     alert(' escapedURL ' + escapedURL);
     const stripped = url.replace(new RegExp(`^${escapedURL}`), '');
