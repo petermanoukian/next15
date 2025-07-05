@@ -60,17 +60,22 @@ const fetchCats = async (
     };
 */
 
-const fixFinalPaginationUrl = (url: string): string => {
+const sanitizePaginationUrl = (url: string): string => {
   if (!url) return '';
 
-  // Strip Laravel base if present
-  const stripped = url.replace(/^https:\/\/corporatehappinessaward\.com\/next15-laravel-public\/(?:api\/)?/, '');
+  // Strip first occurrence of the full domain and base path, KEEP `/api`
+  const stripped = url.replace(
+    /^https:\/\/corporatehappinessaward\.com\/next15-laravel-public\//,
+    ''
+  );
 
-  // If the link already contains a "?", append extras using "&"
-  const hasQuery = stripped.includes('?');
-  const suffix = `sort_by=${sortBy}&sort_order=${sortOrder}${searchTerm ? `&search=${searchTerm}` : ''}`;
+  // Fix second "?" to be "&"
+  const firstQ = stripped.indexOf('?');
+  const secondQ = stripped.indexOf('?', firstQ + 1);
 
-  return hasQuery ? `/${stripped}&${suffix}` : `/${stripped}?${suffix}`;
+  return secondQ !== -1
+    ? stripped.slice(0, secondQ) + '&' + stripped.slice(secondQ + 1)
+    : stripped;
 };
 
 
@@ -80,9 +85,9 @@ setPagination({
   current_page: res.data.current_page ?? 1,
   last_page: res.data.last_page ?? 1,
   links: (res.data.links ?? []).map(link => {
-    const finalUrl = link.url ? fixFinalPaginationUrl(link.url) : null;
+    const finalUrl = link.url ? sanitizePaginationUrl(link.url) : null;
 
-    alert('🔥 FINAL CLEANED LINK: ' + finalUrl); // Confirm it's clean
+    alert('🔥 FINAL FIXED LINK → ' + finalUrl);
 
     return {
       ...link,
@@ -90,6 +95,7 @@ setPagination({
     };
   }),
 });
+
 
 
 
