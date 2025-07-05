@@ -114,10 +114,17 @@ const fetchSubcats = async (
 	  if (!url) return '';
 
 	  // ✅ Collapse any duplicated `next15-laravel-public` sequences into one
+    /*
 	  const cleaned = url.replace(
 		/(?:next15-laravel-public\/)+/g,
 		'next15-laravel-public/'
 	  );
+    */
+    const cleaned = url.replace(
+      /^https:\/\/corporatehappinessaward\.com\/next15-laravel-public\//,
+      ''
+    );
+
 
 	  // ✅ Fix second "?" to be "&"
 	  const firstQ = cleaned.indexOf('?');
@@ -148,8 +155,8 @@ const fetchSubcats = async (
       last_page: res.data.last_page ?? 1,
       links: (res.data.links ?? []).map(link => {
         const sanitizedUrl = link.url ? sanitizePaginationUrl(link.url) : null;
-        const finalUrl = sanitizedUrl ? appendQueryParams(sanitizedUrl) : null;
-
+        //const finalUrl = sanitizedUrl ? appendQueryParams(sanitizedUrl) : null;
+        const finalUrl = sanitizedUrl;
         return {
           ...link,
           url: finalUrl,
