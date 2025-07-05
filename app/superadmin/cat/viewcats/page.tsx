@@ -38,7 +38,7 @@ const fetchCats = async (
   search = searchTerm
 ) => {
   try {
-    
+    console.log('fetchCats called');
     const params = new URLSearchParams();
     params.set('sort_by', sortBy);
     params.set('sort_order', sortOrder);
@@ -51,12 +51,22 @@ const fetchCats = async (
 
     setCats(res.data.data);
     console.log(res.data.data);
-    const sanitizePaginationUrl = (fullUrl: string): string => {
-      return fullUrl.replace(
-        /^https?:\/\/[^/]+\/next15-laravel-public\/next15-laravel-public\/api/,
+// ✅ Remove entire full Laravel base, regardless of how many times it appears
+  /*
+    const sanitizePaginationUrl = (url: string): string => {
+      return url
+        .replace(/https?:\/\/[^/]+\/next15-laravel-public\/api/g, '') // remove ALL Laravel full paths
+        .replace(/^\/+/, ''); // cleanup any leading slashes
+    };
+  */
+
+    const sanitizePaginationUrl = (url: string): string => {
+      return url.replace(
+        /^https:\/\/corporatehappinessaward\.com\/next15-laravel-public\//,
         ''
       );
     };
+
 
     setPagination({
       current_page: res.data.current_page ?? 1,
