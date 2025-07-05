@@ -85,12 +85,13 @@ useEffect(() => {
 
 
 const fetchSubcats = async (
-  alert(1);
+ 
   baseUrl = '/api/superadmin/subcats/viewsubcats',
   search = searchTerm,
   selectedCatId = categoryid
 ) => {
   try {
+    alert(" Fetching Subcategories..");
     console.log("🔍 Fetching Subcategories...");
     console.log("➡️ Selected Category ID:", selectedCatId);
     console.log("🔍 Search Term:", search);
