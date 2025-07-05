@@ -50,7 +50,7 @@ const fetchCats = async (
     const res = await api.get(fullUrl); // now uses the correct Laravel backend
 
     setCats(res.data.data);
-
+    console.log(res.data.data);
     const sanitizePaginationUrl = (fullUrl: string): string => {
       return fullUrl.replace(
         /^https?:\/\/[^/]+\/next15-laravel-public\/next15-laravel-public\/api/,
@@ -167,8 +167,6 @@ const fetchCats = async (
     if (!confirmed) return;
 
 
-    
-
     try {
    
       const cleanPath = 'api/superadmin/cats/multidelete';
@@ -183,11 +181,10 @@ const fetchCats = async (
   };
 
 
-
   return (
     <div>
       
-      <h1 className="text-2xl font-semibold mb-4">Categories (version 9.01)</h1>
+      <h1 className="text-2xl font-semibold mb-4">Categories (version 10 - 1 )</h1>
       <div className='mt-2 mb-4'>
         <Link href = '/superadmin/cat/addcat' className='mt-2 mb-4'> &rsaquo; Add Category </Link>
       </div>
