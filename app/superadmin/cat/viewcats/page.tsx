@@ -51,22 +51,30 @@ const fetchCats = async (
 
     setCats(res.data.data);
 
-    const stripLaravelPrefix = (fullUrl: string): string => {
+    const sanitizePaginationUrl = (fullUrl: string): string => {
       return fullUrl.replace(
         /^https?:\/\/[^/]+\/next15-laravel-public\/next15-laravel-public\/api/,
         ''
       );
     };
 
-
     setPagination({
-      current_page: res.data.current_page,
-      last_page: res.data.last_page,
-      links: (res.data.links ?? []).map(link => ({
-        ...link,
-        url: link.url ? stripLaravelPrefix(link.url) : null,
-      })),
+      current_page: res.data.current_page ?? 1,
+      last_page: res.data.last_page ?? 1,
+      links: (res.data.links ?? []).map(link => {
+        const sanitizedUrl = link.url ? sanitizePaginationUrl(link.url) : null;
+
+        if (sanitizedUrl) {
+          alert('🔥 Sanitized Link → ' + sanitizedUrl);
+        }
+
+        return {
+          ...link,
+          url: sanitizedUrl,
+        };
+      }),
     });
+
 
 
     /*
@@ -179,7 +187,7 @@ const fetchCats = async (
   return (
     <div>
       
-      <h1 className="text-2xl font-semibold mb-4">Categories (version 8.01)</h1>
+      <h1 className="text-2xl font-semibold mb-4">Categories (version 9.01)</h1>
       <div className='mt-2 mb-4'>
         <Link href = '/superadmin/cat/addcat' className='mt-2 mb-4'> &rsaquo; Add Category </Link>
       </div>
