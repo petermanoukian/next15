@@ -38,28 +38,24 @@ const fetchCats = async (
   search = searchTerm
 ) => {
   try {
-    console.log('fetchCats called');
+    console.log('🐾 fetchCats called');
+
     const params = new URLSearchParams();
     params.set('sort_by', sortBy);
     params.set('sort_order', sortOrder);
     if (search) params.set('search', search);
 
-    const cleanPath = basePath.replace(/^\/+/, ''); 
-    const fullUrl = api.defaults.baseURL + cleanPath + '?' + params.toString();
+    const cleanPath = basePath.replace(/^\/+/, '');
+    const fullUrl = `${api.defaults.baseURL}${cleanPath}?${params.toString()}`;
 
-    const res = await api.get(fullUrl); // now uses the correct Laravel backend
+    console.log('📡 Requesting:', fullUrl);
+
+    const res = await api.get(fullUrl);
 
     setCats(res.data.data);
-    console.log(res.data.data);
-// ✅ Remove entire full Laravel base, regardless of how many times it appears
-  /*
-    const sanitizePaginationUrl = (url: string): string => {
-      return url
-        .replace(/https?:\/\/[^/]+\/next15-laravel-public\/api/g, '') // remove ALL Laravel full paths
-        .replace(/^\/+/, ''); // cleanup any leading slashes
-    };
-  */
+    console.log('🐱 Cats:', res.data.data);
 
+    // ✅ Only remove first duplicate Laravel prefix
     const sanitizePaginationUrl = (url: string): string => {
       return url.replace(
         /^https:\/\/corporatehappinessaward\.com\/next15-laravel-public\//,
@@ -67,24 +63,35 @@ const fetchCats = async (
       );
     };
 
-
     setPagination({
       current_page: res.data.current_page ?? 1,
       last_page: res.data.last_page ?? 1,
       links: (res.data.links ?? []).map(link => {
-        const sanitizedUrl = link.url ? sanitizePaginationUrl(link.url) : null;
+        const sanitized = link.url ? sanitizePaginationUrl(link.url) : null;
 
-        if (sanitizedUrl) {
-          alert('🔥 Sanitized Link → ' + sanitizedUrl);
-        }
+        const finalUrl = sanitized
+          ? `/superadmin/cat/viewcats?${sanitized.split('?')[1]}`
+          : null;
+
+        console.log('🔗 Final pagination link:', finalUrl);
 
         return {
           ...link,
-          url: sanitizedUrl,
+          url: finalUrl,
         };
       }),
     });
 
+    // ✅ Update browser URL (optional, for consistency)
+    router.replace(
+      `/superadmin/cat/viewcats?sort_by=${sortBy}&sort_order=${sortOrder}&search=${search}`
+    );
+  } catch (err) {
+    console.error('❌ Error fetching categories:', err);
+  } finally {
+    setLoading(false);
+  }
+};
 
 
     /*
