@@ -52,13 +52,10 @@ export default function ViewUsersPage() {
       if (search) url.searchParams.set('search', search);
       if (role) url.searchParams.set('role', role);
 
-      //const res = await api.get(url.toString());
 
       const cleanPath = baseUrl.replace(/^\/+/, '');
       const fullUrl = api.defaults.baseURL + cleanPath + '?' + url.searchParams.toString();
-      const res = await api.get(fullUrl); // now uses the correct Laravel backend
-
-
+      const res = await api.get(fullUrl); 
 
       setUserrs(res.data.data);
 
@@ -75,9 +72,6 @@ export default function ViewUsersPage() {
           ? stripped.slice(0, secondQ) + '&' + stripped.slice(secondQ + 1)
           : stripped;
       };
-
-
-
 
       const appendQueryParams = (url: string): string => {
         if (!url) return '';
@@ -107,13 +101,6 @@ export default function ViewUsersPage() {
         }),
       }));
 
-      /*
-      setPagination({
-        current_page: res.data.current_page,
-        last_page: res.data.last_page,
-        links: res.data.links,
-      });
-      */
 
       router.replace(
         `/superadmin/user/view?sort_by=${sortBy}&sort_order=${sortOrder}&search=${search}&role=${role}`
@@ -137,7 +124,7 @@ export default function ViewUsersPage() {
 
 
   useEffect(() => {
-    fetchUsers(); // triggers fetch on sort/filter/search
+    fetchUsers(); 
   }, [reset, sortBy, sortOrder, searchTerm, roleFilter]);
 
 
@@ -156,15 +143,10 @@ export default function ViewUsersPage() {
     if (!confirmed) return;
 
     try {
-      //await api.delete(`/api/superadmin/user/deleteoneuser/${id}`);
       const cleanPath = `api/superadmin/user/deleteoneuser/${id}`;
       const finalUrl = api.defaults.baseURL + cleanPath;
       await api.delete(finalUrl);
 
-
-    
-
-      // Refresh the list
       fetchUsers(); // your existing fetch logic
     } catch (error: any) {
       console.error('Error deleting user:', error);
