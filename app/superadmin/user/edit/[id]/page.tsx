@@ -52,7 +52,12 @@ export default function EditUserPage() {
   useEffect(() => {
     const fetchUserr = async () => {
       try {
-        const res = await api.get(`/api/superadmin/user/edit/${id}`);
+        //const res = await api.get(`/api/superadmin/user/edit/${id}`);
+        const cleanPath = `api/superadmin/user/edit/${id}`;
+        const finalUrl = api.defaults.baseURL + cleanPath;
+        const res = await api.get(finalUrl);
+
+
         setUserr(res.data.userr);
       } catch (err) {
         console.error('Failed to load user:', err);
@@ -96,9 +101,17 @@ export default function EditUserPage() {
         //setEmailCheckMessage('');
 
         try {
+            /*
             const res = await api.post('/api/superadmin/users/check-email-edit', {
             email,
             user_id: id,
+            });
+            */
+            const cleanPath = 'api/superadmin/users/check-email-edit';
+            const finalUrl = api.defaults.baseURL + cleanPath;
+            const res = await api.post(finalUrl, {
+              email,
+              user_id: id, // from params or state
             });
 
             if (res.data.valid) {
@@ -274,11 +287,25 @@ export default function EditUserPage() {
       if (formData.filer) formPayload.append('filer', formData.filer);
 
       formPayload.append('_method', 'PUT'); 
+
+      /*
       await api.post(`/api/superadmin/user/update/${id}`, formPayload, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
       });
+
+      */
+      const cleanPath = `api/superadmin/user/update/${id}`;
+      const finalUrl = api.defaults.baseURL + cleanPath;
+
+      await api.post(finalUrl, formPayload, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+
 
       router.push('/superadmin/user/view');
     } catch (err: any) {

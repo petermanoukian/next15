@@ -147,14 +147,7 @@ export default function SuperAdminAddUserPage() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        alert(`🧪 Form Data:
-        Name: ${formData.name}
-        Email: ${formData.email}
-        Password: ${formData.password}
-        Role: ${formData.is_admin}
-        Img: ${formData.img ? formData.img.name : 'none'}
-        Filer: ${formData.filer ? formData.filer.name : 'none'}
-        `);
+
 
         setTimeout(() => {
             const errors = validateBeforeSubmit();
@@ -169,16 +162,12 @@ export default function SuperAdminAddUserPage() {
             .map(([field, message]) => `${field}: ${message}`)
             .join('\n');
 
-            alert(`🛑 Validation Errors:\n\n${errorMessages || 'None — form should submit.'}`);
             setFormErrors(sanitizedErrors);
             if (Object.keys(sanitizedErrors).length > 0) return;
 
-            // Continue with submission...
-        }, 150); // 🕐 Adjust if needed
+        }, 150); 
 
-
-
-
+        
         setFormLoading(true);
         const payload = new FormData();
         Object.entries(formData).forEach(([key, value]) => {
