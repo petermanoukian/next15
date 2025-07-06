@@ -44,7 +44,10 @@ export default function ViewTaggsPage() {
       if (search) url.searchParams.set('search', search);
   
 
-      const res = await api.get(url.toString());
+      const cleanPath = baseUrl.replace(/^\/+/, '');
+      const fullUrl = api.defaults.baseURL + cleanPath + '?' + url.searchParams.toString();
+      const res = await api.get(fullUrl);
+
       setTaggs(res.data.data);
       setPagination({
         current_page: res.data.current_page,
