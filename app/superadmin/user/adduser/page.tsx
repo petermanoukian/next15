@@ -156,31 +156,31 @@ export default function SuperAdminAddUserPage() {
         Img: ${formData.img ? formData.img.name : 'none'}
         Filer: ${formData.filer ? formData.filer.name : 'none'}
         `);
-
-        
+   
         //setFormErrors({});
+     
+        setTimeout(() => {
+            const errors = validateBeforeSubmit();
+            const sanitizedErrors: FormErrors = {};
+            Object.entries(errors).forEach(([key, value]) => {
+            if (typeof value === 'string' && value.trim() !== '') {
+                sanitizedErrors[key as keyof FormErrors] = value;
+            }
+            });
 
-       const errors = validateBeforeSubmit();
+            const errorMessages = Object.entries(sanitizedErrors)
+            .map(([field, message]) => `${field}: ${message}`)
+            .join('\n');
 
-       const rawMessages = Object.entries(errors)
-        .map(([field, message]) => `${field}: ${message ?? '(undefined)'}`)
-        .join('\n');
-        alert(`🛠 Raw Errors:\n\n${rawMessages}`);
-        const sanitizedErrors: FormErrors = {};
-        Object.entries(errors).forEach(([key, value]) => {
-        if (typeof value === 'string' && value.trim() !== '') {
-            sanitizedErrors[key as keyof FormErrors] = value;
-        }
-        });
+            alert(`🛑 Validation Errors:\n\n${errorMessages || 'None — form should submit.'}`);
+            setFormErrors(sanitizedErrors);
+            if (Object.keys(sanitizedErrors).length > 0) return;
 
-        const finalMessages = Object.entries(sanitizedErrors)
-        .map(([field, message]) => `${field}: ${message}`)
-        .join('\n');
+            // Continue with submission...
+        }, 150); // 🕐 Adjust if needed
 
-        alert(`🛑 Final Validation Errors:\n\n${finalMessages || 'None — form should submit.'}`);
 
-        setFormErrors(sanitizedErrors);
-        if (Object.keys(sanitizedErrors).length > 0) return;
+
 
         setFormLoading(true);
         const payload = new FormData();
