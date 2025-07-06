@@ -8,7 +8,7 @@ import { useSuperActions } from '@/app/hooks/superadmin/useSuperActions';
 import  Pagination  from '@/app/components/superadmin/Pagination';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-
+import { APP_API_URL } from '@/lib/config';
 import TagFilterHeader from '@/app/components/superadmin/tagg/TagFilterHeader';
 import TagTableHeader from '@/app/components/superadmin/tagg/TagTableHeader';
 import TagTableRow  from '@/app/components/superadmin/tagg/TagTableRow';
@@ -49,11 +49,47 @@ export default function ViewTaggsPage() {
       const res = await api.get(fullUrl);
 
       setTaggs(res.data.data);
-      setPagination({
-        current_page: res.data.current_page,
-        last_page: res.data.last_page,
-        links: res.data.links,
-      });
+
+
+      const sanitizePaginationUrl = (url: string): string => {
+        if (!url) return '';
+
+        const escapedBase = APP_API_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const stripped = url.replace(new RegExp(`^${escapedBase}`), '');
+
+        const firstQ = stripped.indexOf('?');
+        const secondQ = stripped.indexOf('?', firstQ + 1);
+
+        return secondQ !== -1
+          ? stripped.slice(0, secondQ) + '&' + stripped.slice(secondQ + 1)
+          : stripped;
+      };
+
+      const appendQueryParams = (url: string): string => {
+        if (!url) return '';
+
+        const separator = url.includes('?') ? '&' : '?';
+
+        const params = new URLSearchParams();
+        params.set('sort_by', sortBy);
+        params.set('sort_order', sortOrder);
+        if (searchTerm) params.set('search', searchTerm);
+
+        return `${url}${separator}${params.toString()}`;
+      };
+
+
+
+setPagination({
+  current_page: res.data.current_page,
+  last_page: res.data.last_page,
+  links: (res.data.links ?? []).map(link => {
+    const raw = link.url || '';
+    const clean = appendQueryParams(sanitizePaginationUrl(raw));
+    return { ...link, url: clean };
+  }),
+});
+
 
       router.replace(
         `/superadmin/tagg/view?sort_by=${sortBy}&sort_order=${sortOrder}&search=${search}`
