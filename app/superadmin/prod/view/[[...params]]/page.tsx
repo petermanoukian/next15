@@ -159,32 +159,20 @@ export default function ViewProdsPage() {
       console.log("🟢 Set subcategoryid from params/query:", finalSubcatid);
     }
 
-    /*
-    const effectiveCatid = categoryid ?? finalCatid;
-    const effectiveSubcatid = subcategoryid ?? finalSubcatid;
-    */
-/*
-    const effectiveCatid = hasUserSelectedFilters.current ? categoryid : (categoryid ?? finalCatid);
+
+    const effectiveCatid = hasUserSelectedFilters.current
+      ? categoryid
+      : (categoryid ?? finalCatid);
+
     const effectiveSubcatid = hasUserSelectedFilters.current
-      ? (categoryid ? subcategoryid : null)
+      ? subcategoryid
       : (subcategoryid ?? finalSubcatid);
-//selectedTaggId
-    fetchProds({ selectedCatId: effectiveCatid, selectedSubCatId: effectiveSubcatid, selectedTaggIdParam: selectedTaggId });
-*/
 
-const effectiveCatid = hasUserSelectedFilters.current
-  ? categoryid
-  : (categoryid ?? finalCatid);
-
-const effectiveSubcatid = hasUserSelectedFilters.current
-  ? subcategoryid
-  : (subcategoryid ?? finalSubcatid);
-
-fetchProds({
-  selectedCatId: effectiveCatid,
-  selectedSubCatId: effectiveSubcatid,
-  selectedTaggIdParam: selectedTaggId
-});
+    fetchProds({
+      selectedCatId: effectiveCatid,
+      selectedSubCatId: effectiveSubcatid,
+      selectedTaggIdParam: selectedTaggId
+    });
 
     
   }, [searchParams, params, reset, sortBy, sortOrder, searchTerm, categoryid, subcategoryid, selectedTaggId]);
@@ -212,7 +200,6 @@ fetchProds({
       const page = searchParams.get('page') ?? '1';
       url.searchParams.set('page', page);
 
-
       url.searchParams.set('sort_by', sortBy);
       url.searchParams.set('sort_order', sortOrder);
       if (search) url.searchParams.set('search', search);
@@ -224,7 +211,11 @@ fetchProds({
       }
       console.log("🌎 Final API Request URL:", url.toString()); // Debugging request URL
 
-      const res = await api.get(url.toString());
+      const cleanPath = baseUrl.replace(/^\/+/, '');
+      const fullUrl = api.defaults.baseURL + cleanPath + '?' + url.searchParams.toString();
+      const res = await api.get(fullUrl);
+
+      //const res = await api.get(url.toString());
       
       console.log("✅ API Response:", res.data);
 
@@ -291,7 +282,12 @@ fetchProds({
     if (!confirmed) return;
 
     try {
-      await api.delete(`/api/superadmin/prod/deleteone/${id}`);
+      //await api.delete(`/api/superadmin/prod/deleteone/${id}`);
+
+        const cleanPath = `api/superadmin/prod/deleteone/${id}`;
+        const finalUrl = api.defaults.baseURL + cleanPath;
+        await api.delete(finalUrl);
+
 
       fetchProds(); 
     } catch (error: any) {
@@ -324,11 +320,16 @@ fetchProds({
     const confirmed = window.confirm(`Delete ${selectedIds.length} selected records?`);
     if (!confirmed) return;
 
+    const cleanPath = 'api/superadmin/prods/multidelete';
+    const finalUrl = api.defaults.baseURL + cleanPath;
+    await api.post(finalUrl, { ids: selectedIds });
+
+    /*
     try {
       await api.post('/api/superadmin/prods/multidelete', {
         ids: selectedIds,
       });
-
+    */
       setSelectedIds([]);
       fetchProds();
     } catch (error) {
