@@ -147,7 +147,6 @@ export default function SuperAdminAddUserPage() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-
         alert(`🧪 Form Data:
         Name: ${formData.name}
         Email: ${formData.email}
@@ -156,9 +155,7 @@ export default function SuperAdminAddUserPage() {
         Img: ${formData.img ? formData.img.name : 'none'}
         Filer: ${formData.filer ? formData.filer.name : 'none'}
         `);
-   
-        //setFormErrors({});
-     
+
         setTimeout(() => {
             const errors = validateBeforeSubmit();
             const sanitizedErrors: FormErrors = {};
