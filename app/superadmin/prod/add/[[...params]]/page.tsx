@@ -379,7 +379,7 @@ export default function SuperAdminProdPage() {
                 },
             });
             if (res.status === 200) { 
-                router.push('/superadmin/prod/view?message=Subcategory+added+successfully');
+                router.push('/superadmin/prod/view?message=Product+added+successfully');
             }
         } catch (err) {
             setError('Failed to submit the form.');
