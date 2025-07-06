@@ -324,12 +324,10 @@ export default function ViewProdsPage() {
     const finalUrl = api.defaults.baseURL + cleanPath;
     await api.post(finalUrl, { ids: selectedIds });
 
-    /*
+    
     try {
-      await api.post('/api/superadmin/prods/multidelete', {
-        ids: selectedIds,
-      });
-    */
+      await api.post(finalUrl, { ids: selectedIds });
+
       setSelectedIds([]);
       fetchProds();
     } catch (error) {
