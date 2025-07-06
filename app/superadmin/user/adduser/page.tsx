@@ -160,26 +160,27 @@ export default function SuperAdminAddUserPage() {
         
         //setFormErrors({});
 
-        const errors = validateBeforeSubmit();
+       const errors = validateBeforeSubmit();
 
-        if (Object.keys(errors).length > 0) {
+       const rawMessages = Object.entries(errors)
+        .map(([field, message]) => `${field}: ${message ?? '(undefined)'}`)
+        .join('\n');
+        alert(`🛠 Raw Errors:\n\n${rawMessages}`);
         const sanitizedErrors: FormErrors = {};
         Object.entries(errors).forEach(([key, value]) => {
-            if (typeof value === 'string' && value.trim() !== '') {
+        if (typeof value === 'string' && value.trim() !== '') {
             sanitizedErrors[key as keyof FormErrors] = value;
-            }
+        }
         });
 
-        const errorMessages = Object.entries(sanitizedErrors)
-            .map(([field, message]) => `${field}: ${message}`)
-            .join('\n');
+        const finalMessages = Object.entries(sanitizedErrors)
+        .map(([field, message]) => `${field}: ${message}`)
+        .join('\n');
 
-        alert(`🛑 Validation Errors:\n\n${errorMessages}`);
+        alert(`🛑 Final Validation Errors:\n\n${finalMessages || 'None — form should submit.'}`);
+
         setFormErrors(sanitizedErrors);
-        return;
-        }
-
-
+        if (Object.keys(sanitizedErrors).length > 0) return;
 
         setFormLoading(true);
         const payload = new FormData();
