@@ -1,11 +1,8 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-//import { useAuth } from '@/lib/AuthContext';
 import { useEffect, useState } from 'react';
-//import { auth } from '@/lib/auth';
 import api from '@/lib/axios';
-//import type { User } from '@/lib/auth';
 import { useSuperActions } from '@/app/hooks/superadmin/useSuperActions';
 import Link from 'next/link';
 
@@ -30,20 +27,11 @@ type UserFormData = {
 
 export default function SuperAdminAddUserPage() {
     const router = useRouter();
-    //const { logout } = useAuth();
-
-    //const [user, setUser] = useState<User | null>(null);
-    //const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    //const [isInitialLoad, setIsInitialLoad] = useState(true);
-
-    //const { user, setUser, isInitialLoad, handleLogout } = useSuperActions();
     const { user, isInitialLoad} = useSuperActions();
-
     const [formErrors, setFormErrors] = useState<FormErrors>({});
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
     const [emailExists, setEmailExists] = useState<boolean | null>(null);
-
     const [formData, setFormData] = useState<UserFormData>({
         name: '',
         email: '',
@@ -52,8 +40,6 @@ export default function SuperAdminAddUserPage() {
         img: null,
         filer: null,
     });
-
-    //const [formErrors, setFormErrors] = useState({});
     const [formLoading, setFormLoading] = useState(false);
     const [emailCheckMessage, setEmailCheckMessage] = useState('');
     const [emailChecking, setEmailChecking] = useState(false);
@@ -63,13 +49,9 @@ export default function SuperAdminAddUserPage() {
         setEmailChecking(true);
         setEmailCheckMessage('');
         try {
-            //const res = await api.post('/api/superadmin/users/check-email', { email });
-
             const cleanPath = 'api/superadmin/users/check-email';
             const finalUrl = api.defaults.baseURL + cleanPath;
             const res = await api.post(finalUrl, { email });
-
-
 
             if (res.data.valid) {
                 setEmailCheckMessage('✅ Email is available.');
@@ -131,25 +113,21 @@ export default function SuperAdminAddUserPage() {
                 return;
             }
         }
-
-        // Clear previous error
         setFormErrors(prev => ({ ...prev, [name]: undefined }));
         setFormData(prev => ({ ...prev, [name]: file }));
         return;
     }
 
-    // Handle regular fields
-    setFormData(prev => ({ ...prev, [name]: value }));
-    setFormErrors(prev => ({ ...prev, [name]: undefined }));
+        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormErrors(prev => ({ ...prev, [name]: undefined }));
 
-    if (name === 'email') {
-        checkEmailAvailability(value);
-    }
+        if (name === 'email') {
+            checkEmailAvailability(value);
+        }
     };
 
 
     const validateBeforeSubmit = () => {
-        //const errors: FormErrors = {};
         const errors: FormErrors = { ...formErrors }; // ✅ Include previously detected errors
         if (!formData.name.trim()) errors.name = 'Name is required';
         if (!formData.email.trim()) errors.email = 'Email is required';
@@ -169,15 +147,20 @@ export default function SuperAdminAddUserPage() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        alert('start');
+        
         //setFormErrors({});
 
         const errors = validateBeforeSubmit();
-        if (Object.keys(errors).length > 0) {
-            alert('errors');
+            if (Object.keys(errors).length > 0) {
+            const errorMessages = Object.entries(errors)
+                .map(([field, message]) => `${field}: ${message}`)
+                .join('\n');
+
+            alert(`🛑 Validation Errors:\n\n${errorMessages}`);
             setFormErrors(errors);
             return;
         }
+
 
         setFormLoading(true);
         const payload = new FormData();
@@ -204,11 +187,7 @@ export default function SuperAdminAddUserPage() {
                 'Content-Type': 'multipart/form-data',
             },
             });
-
-
-
             router.push('/superadmin/user/view?message=User+created+successfully');
-
         } 
         catch (err: any) {
             if (err.response?.data?.errors) {
