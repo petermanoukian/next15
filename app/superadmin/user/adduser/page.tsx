@@ -147,19 +147,38 @@ export default function SuperAdminAddUserPage() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
+
+        alert(`🧪 Form Data:
+        Name: ${formData.name}
+        Email: ${formData.email}
+        Password: ${formData.password}
+        Role: ${formData.is_admin}
+        Img: ${formData.img ? formData.img.name : 'none'}
+        Filer: ${formData.filer ? formData.filer.name : 'none'}
+        `);
+
         
         //setFormErrors({});
 
         const errors = validateBeforeSubmit();
-            if (Object.keys(errors).length > 0) {
-            const errorMessages = Object.entries(errors)
-                .map(([field, message]) => `${field}: ${message}`)
-                .join('\n');
 
-            alert(`🛑 Validation Errors:\n\n${errorMessages}`);
-            setFormErrors(errors);
-            return;
+        if (Object.keys(errors).length > 0) {
+        const sanitizedErrors: FormErrors = {};
+        Object.entries(errors).forEach(([key, value]) => {
+            if (typeof value === 'string' && value.trim() !== '') {
+            sanitizedErrors[key as keyof FormErrors] = value;
+            }
+        });
+
+        const errorMessages = Object.entries(sanitizedErrors)
+            .map(([field, message]) => `${field}: ${message}`)
+            .join('\n');
+
+        alert(`🛑 Validation Errors:\n\n${errorMessages}`);
+        setFormErrors(sanitizedErrors);
+        return;
         }
+
 
 
         setFormLoading(true);
