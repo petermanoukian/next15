@@ -26,10 +26,19 @@ export function useSuperActions() {
 
   };
 
+  /*
+  useEffect(() => {
+    if (!isHydrated || loading) return;
+    if (!user) router.replace('/login');
+  }, [loading, user, router]);
+  */
 
-useEffect(() => {
+  useEffect(() => {
   if (!isHydrated || loading) return;
-  if (!user) router.replace('/login');
+
+  if (!user && window.location.pathname !== '/login') {
+    router.replace('/login');
+  }
 }, [loading, user, router]);
 
   return {
@@ -39,7 +48,7 @@ useEffect(() => {
   };
 
 
-  
+
 }
 
 
