@@ -12,12 +12,15 @@ export function useSuperActions() {
 
   const handleLogout = async () => {
     try {
-      await logout();
-      router.replace('/login?message=LoggedOut');
+      await logout(); // Call server-side logout
+
+      // 🔥 Force a full browser reload — avoids redirect spins
+      window.location.href = '/login';
     } catch (error) {
       console.error('❌ Logout failed:', error);
     }
   };
+
 
 useEffect(() => {
   if (!isHydrated || loading) return;
