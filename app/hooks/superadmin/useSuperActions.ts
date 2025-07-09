@@ -26,7 +26,7 @@ export function useSuperActions() {
 
   };
 
-/*
+
 useEffect(() => {
   if (!isHydrated || loading) return;
   if (!user) router.replace('/login');
@@ -38,14 +38,8 @@ useEffect(() => {
     handleLogout,
   };
 
-*/
-useEffect(() => {
-  if (!isHydrated || loading) return;
 
-  // 🛡️ Prevent redirect loop by checking current path
-  if (!user && window.location.pathname !== '/login') {
-    router.replace('/login');
-  }
-}, [loading, user, router]);
+  
+}
 
- }
+
