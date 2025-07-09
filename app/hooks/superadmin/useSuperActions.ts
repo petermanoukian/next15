@@ -22,8 +22,9 @@ export function useSuperActions() {
       } catch (err) {
         console.error('❌ Logout failed or timed out');
       }
-      window.location.replace('/login?started=usersuperaction');
 
+      //window.location.replace('/login?started=usersuperaction');
+      router.push('/login'); 
   };
 
   /*

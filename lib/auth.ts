@@ -66,6 +66,7 @@ export const register = async (
 };
 
 // 🚪 Logout
+/*
 export const logout = async () => {
     await initializeCsrf();
     const fullUrl = `${api.defaults.baseURL}api/logout`;
@@ -73,6 +74,23 @@ export const logout = async () => {
     cachedUser = null;
     return api.post(fullUrl);
 };
+*/
+export const logout = async () => {
+    await initializeCsrf();
+    const fullUrl = `${api.defaults.baseURL}api/logout`;
+
+    try {
+        await api.post(fullUrl, null, { withCredentials: true });
+    } catch (err) {
+        console.warn('Logout request error (can ignore if 401):', err);
+    }
+
+    csrfInitialized = false;
+    cachedUser = null; // 🔥 THIS IS IMPORTANT
+};
+
+
+
 
 // 👤 Fetch authenticated user
 /*
@@ -116,6 +134,7 @@ export const loadAuthenticatedUser = async (): Promise<User | null> => {
     }
 };
 */
+/*
 export const loadAuthenticatedUser = async (): Promise<User | null> => {
   try {
     const user = await getUser();
@@ -126,6 +145,18 @@ export const loadAuthenticatedUser = async (): Promise<User | null> => {
     return null;
   }
 };
+*/
+export const loadAuthenticatedUser = async (): Promise<User | null> => {
+  try {
+    const user = await getUser();
+    cachedUser = user;
+    return user;
+  } catch (err) {
+    cachedUser = null;
+    return null;
+  }
+};
+
 
 
 

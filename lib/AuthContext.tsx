@@ -77,7 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
     };
 
-    
+    /*
     const logout = async () => {
         try {
             await auth.logout();
@@ -85,6 +85,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         } catch (err) {
             if (err instanceof Error) throw err;
             throw new Error('Logout failed');
+        }
+    };
+    */
+
+    const logout = async () => {
+        try {
+            await auth.logout();
+            setUser(null);       // 🔥 Clears React state
+            setError(null);      // Optional: clear errors
+        } catch (err) {
+            setUser(null);       // Still force-clear
+            throw err;
         }
     };
 
