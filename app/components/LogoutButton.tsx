@@ -11,7 +11,7 @@ export default function LogoutButton() {
         try {
             await auth.logout();
             // Use window.location for a hard redirect
-            window.location.href = '/login';
+            window.location.href = '/login?starrted=frombutton';
         } catch (error) {
             console.error('Logout failed:', error);
             setLoading(false);

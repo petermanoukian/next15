@@ -22,7 +22,7 @@ export function useSuperActions() {
       } catch (err) {
         console.error('❌ Logout failed or timed out');
       }
-      window.location.replace('/login');
+      window.location.replace('/login?started=usersuperaction');
 
   };
 
