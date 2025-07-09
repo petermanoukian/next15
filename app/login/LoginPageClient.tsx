@@ -16,14 +16,14 @@ export default function LoginPageClient() {
   useEffect(() => {
     if (!loading && user && user.is_admin) {
       let intendedUrl = searchParams.get('redirect');
-      intendedUrl += '?started=intendedurl';
       if (intendedUrl) {
+        intendedUrl += 'startedfrom=intendedurl';
         router.replace(intendedUrl);
         return;
       }
       switch (user.is_admin) {
         case 'superadmin':
-          router.replace('/superadmin?started=fromloginsuper');
+          router.replace('/superadmin?started=fromlogin');
           break;
         case 'admin':
           router.replace('/admin');
