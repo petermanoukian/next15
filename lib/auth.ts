@@ -75,16 +75,34 @@ export const logout = async () => {
 };
 
 // 👤 Fetch authenticated user
+/*
 export const getUser = async (): Promise<User> => {
     await initializeCsrf();
     const fullUrl = `${api.defaults.baseURL}api/user`;
     const res = await api.get(fullUrl);
     return res.data.user || res.data;
 };
+*/
+export const getUser = async (): Promise<User | null> => {
+  try {
+    await initializeCsrf();
+    const fullUrl = `${api.defaults.baseURL}api/user`;
+    const res = await api.get(fullUrl);
+    return res.data.user || res.data;
+  } catch (error: any) {
+    if (error.response?.status === 401) {
+      return null; // 🔥 no user — session destroyed
+    }
+    throw error;
+  }
+};
+
+
 
 // 🧠 Cached singleton access
 export let cachedUser: User | null = null;
 
+/*
 export const loadAuthenticatedUser = async (): Promise<User | null> => {
     if (cachedUser) return cachedUser;
 
@@ -97,7 +115,7 @@ export const loadAuthenticatedUser = async (): Promise<User | null> => {
         return null;
     }
 };
-
+*/
 // 🔧 Auth module wrapper
 export const auth = {
     async csrf() {
