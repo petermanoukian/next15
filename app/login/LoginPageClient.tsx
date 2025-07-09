@@ -46,7 +46,7 @@ export default function LoginPageClient() {
 
   return (
     <div className="min-h-screen bg-gray-50"> 
-      Version 3.0 Friday
+   
       <LoginForm />
     </div>
   );

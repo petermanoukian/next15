@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import api from '@/lib/axios';
 import Link from 'next/link';
 import { APP_API_URL } from '@/lib/config';
+import { useSuperActions } from '@/app/hooks/superadmin/useSuperActions';
 
 type UserrData = {
   id: number; // ✅ Add the ID field
@@ -36,6 +37,9 @@ type UserFormData = {
 };
 
 export default function EditUserPage() {
+
+   const { user} = useSuperActions();
+
   const router = useRouter();
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
@@ -391,20 +395,30 @@ export default function EditUserPage() {
                 </div>
 
                 {/* Role */}
-                <div>
-                  <label className="block font-medium">User Role</label>
-                  <select
-                    name="is_admin"
-                    value={formData.is_admin}
-                    onChange={handleInputChange}
-                    className="w-full border rounded p-2 mt-1"
-                  >
-                    <option value="superadmin">Super Admin</option>
-                    <option value="admin">Admin</option>
-                    <option value="orduser">Ordinary User</option>
-                    
-                  </select>
-                </div>
+                  <div>
+                    <label className="block font-medium">User Role</label>
+
+                    {user?.id === userr.id ? (
+                      <input
+                        type="text"
+                        name="is_admin"
+                        value={formData.is_admin}
+                        readOnly
+                        className="w-full border rounded p-2 mt-1 bg-gray-100 text-gray-600"
+                      />
+                    ) : (
+                      <select
+                        name="is_admin"
+                        value={formData.is_admin}
+                        onChange={handleInputChange}
+                        className="w-full border rounded p-2 mt-1"
+                      >
+                        <option value="superadmin">Super Admin</option>
+                        <option value="admin">Admin</option>
+                        <option value="orduser">Ordinary User</option>
+                      </select>
+                    )}
+                  </div>
 
                 {/* Profile Image */}
                 <div>

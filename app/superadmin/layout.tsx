@@ -41,7 +41,7 @@ function SuperAdminShell({ children }: { children: ReactNode }) {
           router.replace('/user?message=RedirectedFromSuper');
           break;
         default:
-          router.replace('/unauthorized?message=UnknownRole');
+          router.replace('/login');
       }
     }
   }, [isInitialLoad, user, router]);

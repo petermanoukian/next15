@@ -53,8 +53,7 @@ export default function SuperAdminPage() {
                                 <div className="text-center">
                                     <h2 className="text-xl font-semibold text-gray-900">
                                         Welcome to Super Admin Area  
-                                        <br />
-                                        This is version 2 for debug for ChatGPT and Copilot
+                                    
                                     </h2>
                                     <p className="mt-2 text-gray-600">{user.is_admin}</p>
                                 </div>
