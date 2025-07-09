@@ -14,28 +14,35 @@ export default function LoginPageClient() {
   const { user, loading } = useAuth();
 
   useEffect(() => {
-    if (!loading && user && user.is_admin) {
-      let intendedUrl = searchParams.get('redirect');
-      if (intendedUrl) {
-        intendedUrl += 'startedfrom=intendedurl';
-        router.replace(intendedUrl);
-        return;
-      }
-      switch (user.is_admin) {
-        case 'superadmin':
-          router.replace('/superadmin?started=fromlogin');
-          break;
-        case 'admin':
-          router.replace('/admin');
-          break;
-        case 'orduser':
-          router.replace('/orduser');
-          break;
-        default:
-          router.replace('/dashboard');
-      }
+    if (loading) return; // ⏳ wait until auth finishes
+
+    // 🛡️ Prevent redirect if user is undefined or just empty shell
+    if (!user || !user?.id || !user?.is_admin) {
+      console.log('🧍 No valid user. Staying on login page.');
+      return;
+    }
+
+    let intendedUrl = searchParams.get('redirect');
+    if (intendedUrl) {
+      router.replace(`${intendedUrl}?startedfrom=intendedurl`);
+      return;
+    }
+
+    switch (user.is_admin) {
+      case 'superadmin':
+        router.replace('/superadmin?started=fromlogin');
+        break;
+      case 'admin':
+        router.replace('/admin');
+        break;
+      case 'orduser':
+        router.replace('/orduser');
+        break;
+      default:
+        router.replace('/dashboard');
     }
   }, [user, loading, router, searchParams]);
+
 
   if (loading) {
     return (
