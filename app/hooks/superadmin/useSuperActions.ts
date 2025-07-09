@@ -13,7 +13,7 @@ export function useSuperActions() {
   const handleLogout = async () => {
     try {
       await logout(); // Call server-side logout
-
+      alert('logged out');
       // 🔥 Force a full browser reload — avoids redirect spins
       window.location.href = '/login';
     } catch (error) {
