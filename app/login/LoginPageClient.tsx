@@ -13,35 +13,38 @@ export default function LoginPageClient() {
   const searchParams = useSearchParams();
   const { user, loading } = useAuth();
 
-  useEffect(() => {
-    if (loading) return; // ⏳ wait until auth finishes
+useEffect(() => {
+  if (loading) return; // wait until loading completes
 
-    // 🛡️ Prevent redirect if user is undefined or just empty shell
-    if (!user || !user?.id || !user?.is_admin) {
-      console.log('🧍 No valid user. Staying on login page.');
-      return;
-    }
+  // ✅ Safely guard against null/invalid user
+  if (!user || !user?.id || !user?.is_admin) {
+    console.log('🧍 No valid user. Staying on login page.', user);
+    return;
+  }
 
-    let intendedUrl = searchParams.get('redirect');
-    if (intendedUrl) {
-      router.replace(`${intendedUrl}?startedfrom=intendedurl`);
-      return;
-    }
+  console.log('✅ Valid user detected, redirecting to dashboard...', user);
 
-    switch (user.is_admin) {
-      case 'superadmin':
-        router.replace('/superadmin?started=fromlogin');
-        break;
-      case 'admin':
-        router.replace('/admin');
-        break;
-      case 'orduser':
-        router.replace('/orduser');
-        break;
-      default:
-        router.replace('/dashboard');
-    }
-  }, [user, loading, router, searchParams]);
+  let intendedUrl = searchParams.get('redirect');
+  if (intendedUrl) {
+    router.replace(`${intendedUrl}?startedfrom=intendedurl`);
+    return;
+  }
+
+  switch (user.is_admin) {
+    case 'superadmin':
+      router.replace('/superadmin?started=fromlogin');
+      break;
+    case 'admin':
+      router.replace('/admin');
+      break;
+    case 'orduser':
+      router.replace('/orduser');
+      break;
+    default:
+      router.replace('/dashboard');
+  }
+}, [loading, user, router, searchParams]);
+
 
 
   if (loading) {
