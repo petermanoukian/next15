@@ -90,21 +90,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     */
 
     const logout = async () => {
+        setLoading(true);
         try {
             await auth.logout();
             setUser(null);       // 🔥 Clears React state
             setError(null);      // Optional: clear errors
+            clearCachedUser();   // global cache
+            document.cookie = "laravel_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.corporatehappinessaward.com";
         } catch (err) {
             setUser(null);       // Still force-clear
-            throw err;
-        }
-        finally {
-            setUser(null); // React state
-            clearCachedUser(); // global cache
-            document.cookie = "laravel_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.corporatehappinessaward.com";
             setError(null);
+            clearCachedUser();
+        } finally {
+            setLoading(false);
+            window.location.href = '/login'; // Hard redirect
         }
-
     };
 
 
