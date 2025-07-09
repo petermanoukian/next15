@@ -120,6 +120,10 @@ export const getUser = async (): Promise<User | null> => {
 // 🧠 Cached singleton access
 export let cachedUser: User | null = null;
 
+export const clearCachedUser = () => {
+  cachedUser = null;
+};
+
 /*
 export const loadAuthenticatedUser = async (): Promise<User | null> => {
     if (cachedUser) return cachedUser;

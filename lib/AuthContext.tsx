@@ -7,7 +7,7 @@ import {
     useState,
     ReactNode,
 } from 'react';
-import { auth, loadAuthenticatedUser } from './auth';
+import { auth, loadAuthenticatedUser ,  clearCachedUser} from './auth';
 import type { User } from './auth';
 
 interface AuthContextType {
@@ -98,6 +98,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             setUser(null);       // Still force-clear
             throw err;
         }
+        finally {
+            setUser(null); // React state
+            clearCachedUser(); // global cache
+            document.cookie = "laravel_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.corporatehappinessaward.com";
+            setError(null);
+        }
+
     };
 
 
