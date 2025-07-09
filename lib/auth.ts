@@ -116,6 +116,19 @@ export const loadAuthenticatedUser = async (): Promise<User | null> => {
     }
 };
 */
+export const loadAuthenticatedUser = async (): Promise<User | null> => {
+  try {
+    const user = await getUser();
+    cachedUser = user;
+    return user;
+  } catch (err) {
+    cachedUser = null;
+    return null;
+  }
+};
+
+
+
 // 🔧 Auth module wrapper
 export const auth = {
     async csrf() {
