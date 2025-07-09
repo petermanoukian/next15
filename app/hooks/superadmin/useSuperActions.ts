@@ -11,14 +11,19 @@ export function useSuperActions() {
   const isHydrated = typeof window !== 'undefined'; 
 
   const handleLogout = async () => {
-    try {
-      await logout(); // Call server-side logout
-      alert('logged out');
-      // 🔥 Force a full browser reload — avoids redirect spins
-      window.location.href = '/login';
-    } catch (error) {
-      console.error('❌ Logout failed:', error);
-    }
+      const timeout = (ms: number) => new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), ms));
+
+      try {
+        await Promise.race([
+          logout(),
+          timeout(3000) // hard cutoff
+        ]);
+        alert('✅ Logged out');
+      } catch (err) {
+        console.error('❌ Logout failed or timed out');
+      }
+      window.location.replace('/login');
+
   };
 
 
